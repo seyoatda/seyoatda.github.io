@@ -1,5 +1,5 @@
 {{- $toc := .TableOfContents -}}
- 
+
 <!-- Change TOC Attribute -->
 {{- $regexPatternTOC := `<nav id="TableOfContents">` -}}
 {{- $regexReplacementTOC := `<nav class="contents">` -}}
@@ -8,7 +8,7 @@
 <!-- Inject Class Attribute -->
 {{- $regexPatternTOC := `(<nav class="contents">\n.+)<(ol|ul)>` -}}
 {{- $regexReplacementTOC := `$1<$2 class="toc">` -}}
-{{- $toc = $toc | replaceRE $regexPatternTOC $regexReplacementTOC -}} 
+{{- $toc = $toc | replaceRE $regexPatternTOC $regexReplacementTOC -}}
 
 <!-- Inject TOC Title -->
 {{- if .Site.Params.displayTOCTitle -}}

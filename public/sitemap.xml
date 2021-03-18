@@ -2,4 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
+  <url>
+    <loc>https://example.com/tech/python-%E4%B8%AD%E7%9A%84-self-%E6%98%AF%E4%BB%80%E4%B9%88/</loc>
+    <lastmod>2021-03-17T09:28:47+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tech/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/categories/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tags/nosql/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tags/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/about/</loc>
+    <lastmod>2021-03-08T21:31:02+08:00</lastmod>
+  </url>
+  
 </urlset>
