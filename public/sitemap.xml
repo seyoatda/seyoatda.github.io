@@ -9,12 +9,12 @@
   
   <url>
     <loc>https://example.com/tech/</loc>
-    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+    <lastmod>2021-03-19T13:57:09+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://example.com/</loc>
-    <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+    <lastmod>2021-03-19T13:57:09+08:00</lastmod>
   </url>
   
   <url>
@@ -45,6 +45,11 @@
   <url>
     <loc>https://example.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2021-03-17T09:39:12+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.com/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2021-03-19T13:57:09+08:00</lastmod>
   </url>
   
   <url>

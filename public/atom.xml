@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN">
     <title type="text">饮冰室</title>
     <subtitle type="html">个人博客</subtitle>
-    <updated>2021-03-18T14:28:36&#43;08:00</updated>
+    <updated>2021-03-19T13:57:18&#43;08:00</updated>
     <id>https://example.com/</id>
     <link rel="alternate" type="text/html" href="https://example.com/" />
     <link rel="self" type="application/atom&#43;xml" href="https://example.com/atom.xml" />
@@ -449,6 +449,398 @@ $ make -j4
                                 <category scheme="https://example.com/tags/nosql/" term="nosql" label="nosql" />
                             
                         
+                    
+                
+            
+        </entry>
+    
+        <entry>
+            <title type="text">日志采集链路部署指南</title>
+            <link rel="alternate" type="text/html" href="https://example.com/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" />
+            <id>https://example.com/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</id>
+            <updated>2021-03-19T13:57:09&#43;08:00</updated>
+            <published>2020-06-18T17:42:45&#43;08:00</published>
+            <author>
+                    <name>seyoatda</name>
+                    <uri>https://example.com/</uri>
+                    <email>seyoatda@foxmail.com</email>
+                    </author>
+            <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1. 概述 一个完整的采集链路的流程如下： 所以要进行采集链路的部署需要以下几个步聚： ngi……</summary>
+            
+                <content type="html">&lt;h1 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h1&gt;
+&lt;p&gt;一个完整的采集链路的流程如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;img/image-20200907094954218.png&#34; alt=&#34;image-20200907094954218&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以要进行采集链路的部署需要以下几个步聚：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;nginx的配置&lt;/li&gt;
+&lt;li&gt;filebeat部署&lt;/li&gt;
+&lt;li&gt;logstash部署&lt;/li&gt;
+&lt;li&gt;kafka部署&lt;/li&gt;
+&lt;li&gt;kudu部署&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下面将详细说明各个部分的部署方法，以及一些基本的配置参数。&lt;/p&gt;
+&lt;h1 id=&#34;2-部署流程&#34;&gt;2. 部署流程&lt;/h1&gt;
+&lt;h2 id=&#34;nginx&#34;&gt;nginx&lt;/h2&gt;
+&lt;h3 id=&#34;1-安装&#34;&gt;1. 安装&lt;/h3&gt;
+&lt;p&gt;nginx安装直接去官网下载一个压缩文件解压然后用&lt;code&gt;sbin/nginx&lt;/code&gt;运行就可以了。&lt;/p&gt;
+&lt;h3 id=&#34;2-配置&#34;&gt;2. 配置&lt;/h3&gt;
+&lt;h4 id=&#34;21-日志输出格式&#34;&gt;2.1 日志输出格式&lt;/h4&gt;
+&lt;p&gt;nginx是采集链路的第一个环节，后面的日志采集系统是通过采集nginx日志进行分析的。本节主要对nginx的日志处理的配置进行描述。&lt;/p&gt;
+&lt;p&gt;对&lt;code&gt;nginx.conf&lt;/code&gt;文件进行配置：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-conf&#34; data-lang=&#34;conf&#34;&gt; log_format log_json escape=json &#39;{ &amp;quot;@timestamp&amp;quot;: &amp;quot;$time_local&amp;quot;, &#39;
+                        &#39;&amp;quot;remote_addr&amp;quot;: &amp;quot;$remote_addr&amp;quot;, &#39;
+                        &#39;&amp;quot;referer&amp;quot;: &amp;quot;$http_referer&amp;quot;, &#39;
+                        &#39;&amp;quot;project&amp;quot;: &amp;quot;$arg_project&amp;quot;, &#39;
+                        &#39;&amp;quot;request&amp;quot;: &amp;quot;$request&amp;quot;, &#39;
+                        &#39;&amp;quot;status&amp;quot;: $status, &#39;
+                        &#39;&amp;quot;bytes&amp;quot;: $body_bytes_sent, &#39;
+                        &#39;&amp;quot;request_body&amp;quot;: &amp;quot;$request_body&amp;quot;,&#39;
+                        &#39;&amp;quot;data&amp;quot;: &amp;quot;$arg_data&amp;quot;,&#39;
+                        &#39;&amp;quot;cookies&amp;quot;: &amp;quot;$http_cookie&amp;quot;&#39;
+                        &#39; }&#39;;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面的代码定义了一个nginx的日志输出格式并命名为&lt;code&gt;log_json&lt;/code&gt;，并且使用&lt;code&gt;escape=json&lt;/code&gt;参数来把变量中可能包含的json字符串自动转义。&lt;/p&gt;
+&lt;p&gt;这个日志输出哪些变量都可以灵活配置，取决于采集框架怎么进行数据解析。在本文中，前端发送的请求中，埋点数据可能出现在request body中，也可能出现在url参数中以&lt;code&gt;data=xxx&lt;/code&gt;的形式转递，所以将这两个变量打印到日志中。&lt;/p&gt;
+&lt;p&gt;输出格式也可以灵活配置，在logstash的输入解析中进行对应的调整就可以了。使用&lt;code&gt;json&lt;/code&gt;格式可以直接用&lt;code&gt;json&lt;/code&gt;插件进行解析，否则可能就要用&lt;code&gt;grok&lt;/code&gt;插件自己写正则进行解析了。这里推荐输出为&lt;code&gt;json&lt;/code&gt;格式。&lt;/p&gt;
+&lt;h4 id=&#34;22-监听配置&#34;&gt;2.2 监听配置&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt; ...
+ 
+ http {
+ 	...
+ 	
+ 	server {
+         listen 2346;
+         access_log logs/data_tracking/access.log log_json;
+         location / {
+             error_page 405 =200 $request_uri;
+         }
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;配置监听埋点端口，将请求日志打印到单独的一个文件夹中避免和其他日志混淆，并指定输出格式为上一节配置好的&lt;code&gt;log_json&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;同时把根请求的&lt;code&gt;405&lt;/code&gt;代码转发为&lt;code&gt;200&lt;/code&gt;，因为请求监听的端口并没有任何资源，请求会返回&lt;code&gt;status_code = 405&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;filebeat&#34;&gt;filebeat&lt;/h2&gt;
+&lt;p&gt;filebeat是一款开源的轻量级日志采集工具，主要用于整合各个路径下的各种不同的日志文件，并且统一输出到指定的输出点。&lt;/p&gt;
+&lt;p&gt;对于filebeat的配置较为简单，而filebeat提供的功能也十分有限，只能进行简单的日志采集工作，所以需要和logstash配和使用&lt;/p&gt;
+&lt;h3 id=&#34;1-安装-1&#34;&gt;1. 安装&lt;/h3&gt;
+&lt;p&gt;可以直接在官网下载rpm或deb包：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/downloads/beats/filebeat&#34;&gt;https://www.elastic.co/cn/downloads/beats/filebeat&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;下载后直接使用&lt;code&gt;yum localinstall {pacakgeName}&lt;/code&gt;进行安装。&lt;/p&gt;
+&lt;p&gt;或者使用包管理软件如 apt 和 yum 进行安装：&lt;/p&gt;
+&lt;p&gt;首先引入公有签名key&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;sudo rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后再添加一个repo文件到&lt;code&gt;/etc/yum.repos.d/&lt;/code&gt;目录中&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;elastic-7.x&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Elastic repository &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; 7.x packages
+&lt;span class=&#34;nv&#34;&gt;baseurl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;https://artifacts.elastic.co/packages/7.x/yum
+&lt;span class=&#34;nv&#34;&gt;gpgcheck&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;gpgkey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;https://artifacts.elastic.co/GPG-KEY-elasticsearch
+&lt;span class=&#34;nv&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;autorefresh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;rpm-md
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最后使用&lt;code&gt;yum&lt;/code&gt;命令直接安装即可。&lt;/p&gt;
+&lt;h3 id=&#34;2-配置和启动&#34;&gt;2. 配置和启动&lt;/h3&gt;
+&lt;p&gt;filebeat默认安装在&lt;code&gt;/usr/share/filebeat&lt;/code&gt;下&lt;/p&gt;
+&lt;p&gt;filebeat目录结构说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;home&lt;/code&gt; 安装的根目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bin&lt;/code&gt; 一些二进制执行文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;config&lt;/code&gt; 配置文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;data&lt;/code&gt; 持久化的数据文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;logs&lt;/code&gt; filebeat运行日志&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在运行filebeat前，需要对filebeat的一些运行参数进行配置。&lt;/p&gt;
+&lt;p&gt;首先需要在filebeat根目录下新建一个&lt;code&gt;filebeat.yml&lt;/code&gt;配置文件，并在其中写入如下的内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;filebeat.inputs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;paths&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/var/log/*.log&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;output.logstash&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;hosts:[&amp;#34;localhost:5044&amp;#34;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;注意：所有的横线后都要空一格，不能直接跟字符串。这是YAML的语法格式，可以去了解一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;filebeat.inputs&lt;/code&gt;指定了输入的配置。其中&lt;code&gt;type&lt;/code&gt;指定了输入的类型是日志类型。&lt;code&gt;paths&lt;/code&gt;指定了输入文件的路径，表示读取&lt;code&gt;/var/log/&lt;/code&gt;路径下的所有&lt;code&gt;.log&lt;/code&gt;结尾的文件。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;output.logstash&lt;/code&gt;指定了输出到logstash的配置。其中&lt;code&gt;hosts&lt;/code&gt;可以指定一个数组，写入多个输出地址。&lt;/p&gt;
+&lt;p&gt;设置开机启动filebeat&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; filebeat
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过&lt;code&gt;bin/filebeat&lt;/code&gt;文件启动filebeat用:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;bin/filebeat -e -c filebeat.yml
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;3-和nginx的配合&#34;&gt;3. 和nginx的配合&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;首先修改&lt;code&gt;filebeat.yml&lt;/code&gt;中的&lt;code&gt;paths&lt;/code&gt;，指定输入为nginx埋点日志的输出位置。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用&lt;code&gt;include_lines&lt;/code&gt;，指定正则表达式来过滤不符合要求的行。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;nginx日志输出格式是一个请求一行。否则进行单行过滤的时候会有大问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输出配置最好指定为内网ip。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;nt&#34;&gt;filebeat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;inputs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;paths&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/usr/local/openresty/nginx/logs/data_tracking/access.log*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;include_lines&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#34;project&amp;#34;: &amp;#34;test_bank_event&amp;#34;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;output.logstash&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;hosts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;192.168.0.34:5055&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;logstash&#34;&gt;logstash&lt;/h2&gt;
+&lt;p&gt;logstash相对于filebeat并没有那么轻量，但相对来说有更多的功能和数据处理功能。所以一般将filebeat和logstash结合使用。用filebeat读取日志文件并输出到logstash中，再进行后续的数据处理。&lt;/p&gt;
+&lt;h3 id=&#34;1-安装-2&#34;&gt;1. 安装&lt;/h3&gt;
+&lt;p&gt;logstash的安装方法和filebeat的安装基本相同，可以在官网下载安装包进行安装，在此不再赘述。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.elastic.co/cn/downloads/logstash&#34;&gt;https://www.elastic.co/cn/downloads/logstash&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-配置和启动-1&#34;&gt;2. 配置和启动&lt;/h3&gt;
+&lt;p&gt;logstash 的默认安装路径也位于&lt;code&gt;/usr/share/&lt;/code&gt;目录下。&lt;/p&gt;
+&lt;p&gt;其启动文件是安装根目录下的&lt;code&gt;bin/logstash&lt;/code&gt;，对于一些简单的配置信息，可以直接以命令行参数的形式指定：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;bin/logstash -e &lt;span class=&#34;s1&#34;&gt;&amp;#39;input { stdin {}} output{ stdout{}}&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这行命令指定了最基本的&lt;code&gt;input&lt;/code&gt;和&lt;code&gt;output&lt;/code&gt;为标准输入和标准输出。启动后直接在命令行输入内容，回车后就可以看到结构化处理后的数据输出：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;hello world
+/usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/awesome_print-1.7.0/lib/awesome_print/formatters/base_formatter.rb:31: warning: constant ::Fixnum is deprecated
+&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;s2&#34;&gt;&amp;#34;@timestamp&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; 2020-06-08T03:38:04.658Z,
+          &lt;span class=&#34;s2&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;hadoop&amp;#34;&lt;/span&gt;,
+       &lt;span class=&#34;s2&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;hello world&amp;#34;&lt;/span&gt;,
+      &lt;span class=&#34;s2&#34;&gt;&amp;#34;@version&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;要进行更多的配置，最好在安装根目录下新建一个 .conf格式的配置文件。&lt;/p&gt;
+&lt;p&gt;要将logstash和filebeat联合使用，需要让logstash接受一个beats格式的输入：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span class=&#34;l&#34;&gt;input{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;beats{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;		&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;port =&amp;gt; &amp;#34;5044&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;}&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;}&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# filter{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# }&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;output {&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;	&lt;/span&gt;&lt;span class=&#34;l&#34;&gt;stdout { codec =&amp;gt; rubydebug}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;}&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上述配置指定了一个beats类型的input，并设置端口为5044&lt;/p&gt;
+&lt;p&gt;在写好配置文件后可以使用下面的命令对配置进行检查，其中&lt;code&gt;-f&lt;/code&gt;指定了要加载的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;bin/logstash -f first-pipeline.conf --config.test_and_exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;--config.test_and_exit&lt;/code&gt;命令会加载配置文件并检查是否有错误，并在输出检查结果后自动退出。&lt;/p&gt;
+&lt;p&gt;如果检查通过，那么就可以启动logstash了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;bin/logstash -f first-pipeline.conf --config.reload.automatic
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;--config.reload.automatic&lt;/code&gt;命令开启了自动重载配置的功能，所以在修改完配置文件后可以不用重启服务，logstash会自动加载更新后的配置。&lt;/p&gt;
+&lt;p&gt;如果在filebeat中配置的输出地址和logstash中的输入beats地址相同，那么在启动了这两个服务后，logstash就可以收到filebeat读取到的日志内容。其基本格式和上文中从标准输入获取数据并输出的格式类似。&lt;/p&gt;
+&lt;h3 id=&#34;3-和filebeat的配合&#34;&gt;3. 和filebeat的配合&lt;/h3&gt;
+&lt;p&gt;在输入配置了对应的filebeat的端口后，接下来主要是配置&lt;code&gt;filter&lt;/code&gt;模块对日志进行解析，这部分也要根据&lt;code&gt;nginx&lt;/code&gt;日志的结构进行灵活的配置。&lt;code&gt;filebeat&lt;/code&gt;主要用来收集数据传输给&lt;code&gt;logstash&lt;/code&gt;，当然&lt;code&gt;filebeat&lt;/code&gt;中也可以进行一些简单的数据处理，但还是推荐&lt;code&gt;filebeat&lt;/code&gt;只负责收集日志，发送到&lt;code&gt;logstash&lt;/code&gt;进行统一处理。&lt;/p&gt;
+&lt;p&gt;下面是一份&lt;code&gt;logstash&lt;/code&gt;的conf文件用于参考：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span class=&#34;n&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 首先对filebeat中的数据进行解析，其中&amp;#39;message&amp;#39;对应的值才是我们真正要解析的埋点数据&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 其他还有很多filebeat自动生成的数据。&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 这里使用json插件进行解析，解析完后就可以删除原来的变量了，减少不必要的数据传输&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;remove_field&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 对埋点数据进行url解码，因为埋点数据可能是通过url传输的，可能会有进行过url编码&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;urldecode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;all_fields&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 使用ruby进行base64解码，目标是&amp;#39;data&amp;#39;变量，结果赋值给新建的&amp;#39;b64_decoded&amp;#39;变量。&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;ruby&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;init&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;require &amp;#39;base64&amp;#39;&amp;#34;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;code&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;event.set(&amp;#39;b64_decoded&amp;#39;, Base64.decode64(event.get(&amp;#39;data&amp;#39;))) if event.include?(&amp;#39;data&amp;#39;)&amp;#34;&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;#这里解码出刚刚截取出来的msg字段&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;remove_field&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;data&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;request&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# 在解码后再进行一次json解析，把json字符串转换为json结构体&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;b64_decoded&amp;#34;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;remove_field&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;b64_decoded&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;4-和kafka的配合&#34;&gt;4. 和kafka的配合&lt;/h3&gt;
+&lt;p&gt;由于本链路使用的存储为&lt;code&gt;kudu&lt;/code&gt;数据库，而logstash是不支持直接写入&lt;code&gt;kudu&lt;/code&gt;的；并且要考虑到并发处理和容错，所以要先将数据写入&lt;code&gt;kafka&lt;/code&gt;消息队列，再由&lt;code&gt;kafka&lt;/code&gt;写入&lt;code&gt;kudu&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;主要是配置conf文件中的&lt;code&gt;output&lt;/code&gt;模块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span class=&#34;n&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;kafka&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# 输出为json格式&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;codec&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;json&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;# 指定topic为&amp;#39;test_event&amp;#39;&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;topic_id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;test_event&amp;#34;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;必要的配置就只有&lt;code&gt;topic_id&lt;/code&gt;，更多的配置参考logstash官方文档对&lt;code&gt;kafka&lt;/code&gt;插件的介绍。&lt;/p&gt;
+&lt;p&gt;​&lt;/p&gt;
+</content>
+            
+            
+            
+            
+            
+                
+                    
+                
                     
                 
             
