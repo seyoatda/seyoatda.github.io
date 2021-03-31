@@ -1,7 +1,7 @@
 ##########################################
 # 站点配置
 
-baseURL = "https://example.com/"
+baseURL = "https://seyoatda.github.io"
 title = "饮冰室"
 languageCode = "zh-CN"
 hasCJKLanguage = true
@@ -214,7 +214,7 @@ uglyURLs = false
     [[menu.main]]
         weight = 7
         identifier = "lang-switcher"
-    # [[menu.main]]
+    # [[menu.socials]]
     #     weight = 8
     #     identifier = "search"
     #     post = "search"
@@ -414,6 +414,8 @@ uglyURLs = false
 
     # 是否显示列表标题
     displayListTitle = true
+
+    displayIntroduction = true
 
     # 日期的格式
     listDateFormat = "1 月 3 日"

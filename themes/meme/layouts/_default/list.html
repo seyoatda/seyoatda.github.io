@@ -13,7 +13,10 @@
                             <h1 class="list-title">{{ .Title | default .Data.Term | default (delimit (last 1 (split (strings.TrimSuffix "/_index.md" .Path) "/")) " ") }}</h1>
                         {{ end }}
                     {{ end }}
-
+                    <!-- 用于模块目录页的简短介绍文字 -->
+                    {{ if .Site.Params.displayIntroduction }}
+                        <p></p>
+                    {{ end }}
                     {{ .Scratch.Delete "pages" }}
 
                     <!-- Section -->
