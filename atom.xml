@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><title type="text">饮冰室</title><subtitle type="html">个人博客</subtitle><updated>2021-07-11T23:17:34+08:00</updated><id>https://seyoatda.github.io/</id><link rel="alternate" type="text/html" href="https://seyoatda.github.io/"/><link rel="self" type="application/atom+xml" href="https://seyoatda.github.io/atom.xml"/><author><name>seyoatda</name><uri>https://seyoatda.github.io/</uri><email>seyoatda@foxmail.com</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><generator uri="https://gohugo.io/" version="0.85.0">Hugo</generator><entry><title type="text">Python 中的「self」是什么？</title><link rel="alternate" type="text/html" href="https://seyoatda.github.io/tech/python-%E4%B8%AD%E7%9A%84-self-%E6%98%AF%E4%BB%80%E4%B9%88/"/><id>https://seyoatda.github.io/tech/python-%E4%B8%AD%E7%9A%84-self-%E6%98%AF%E4%BB%80%E4%B9%88/</id><updated>2021-07-11T23:17:33+08:00</updated><published>2021-03-08T12:37:42+08:00</published><author><name>seyoatda</name><uri>https://seyoatda.github.io/</uri><email>seyoatda@foxmail.com</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">Python 中的&amp;quot;self&amp;quot;是什么 在使用 pycharm 编写 Python 时，自动补全总会把函数定义……</summary><content type="html">&lt;h1 id="python-中的self是什么">Python 中的&amp;quot;self&amp;quot;是什么&lt;/h1>
+&lt;p>在使用 &lt;code>pycharm&lt;/code> 编写 Python 时，自动补全总会把函数定义的第一个参数定义为 &lt;code>self&lt;/code> 。遂查，总结如下：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>self&lt;/code> 大体上和静态语言如 Java 中的 &lt;code>this&lt;/code> 关键字类似，用于指代实例变量。只是在 Python 中需要主动定义在函数的参数中。但是通过实例调用方法时，无须传入 &lt;code>self&lt;/code> 参数。&lt;/li>
+&lt;li>&lt;code>self&lt;/code> 不是关键字，只是一种官方推荐写法，也可以写成其他的名称，但是很容易造成误解，所以不推荐。&lt;/li>
+&lt;/ol>
+&lt;p>由上方的知识可知：如果一个函数如果不是定义在类中，那么就不需要定义 &lt;code>self&lt;/code> 变量了。即使定义了，也会作为一个普通的参数使用，参考下方的代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="k">def&lt;/span> &lt;span class="nf">outer_func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">val2&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">val2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="n">outer_func&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;just a common parameter&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;another common parameter&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="c1"># 执行结果&lt;/span>
+&lt;span class="c1"># just a common parameter &lt;/span>
+&lt;span class="c1"># another common parameter&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></content></entry><entry><title type="text">Java 中的多重分派与访问者模式</title><link rel="alternate" type="text/html" href="https://seyoatda.github.io/tech/java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E5%88%86%E6%B4%BE%E4%B8%8E%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/"/><id>https://seyoatda.github.io/tech/java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E5%88%86%E6%B4%BE%E4%B8%8E%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</id><updated>2021-07-11T23:17:33+08:00</updated><published>2020-12-20T20:20:30+08:00</published><author><name>seyoatda</name><uri>https://seyoatda.github.io/</uri><email>seyoatda@foxmail.com</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">什么是双重分派 什么是分派（dispatch） 首先我们需要理解「分派」的含义。分派就是……</summary><content type="html">&lt;h1 id="什么是双重分派">什么是双重分派&lt;/h1>
+&lt;h2 id="什么是分派dispatch">什么是分派（dispatch）&lt;/h2>
+&lt;p>首先我们需要理解「分派」的含义。分派就是将方法调用与对应的具体方法绑定起来。而判断的依据有两点，这两者可称为「宗量」：&lt;/p>
+&lt;ol>
+&lt;li>方法的接收者，也就是哪个对象调用了这个方法&lt;/li>
+&lt;li>方法的参数，调用方法时传递过来的参数&lt;/li>
+&lt;/ol>
+&lt;p>而不同的判断方法也就产生了不同的分派类型：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>静态分派 V.S. 动态分派&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>单重分派 V.S. 多重分派&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>下面以我的理解简单地总结一下这几个名词的含义：&lt;/p>
+&lt;p>&lt;strong>静态分派&lt;/strong>：静态分派在编译期进行，只根据宗量的静态类型进行判断，在编译完成后不会发生改变。也可称为「编译期多态」。&lt;/p>
+&lt;p>&lt;strong>动态分派&lt;/strong>：动态分派在运行期进行，根据宗量的动态类型来判断需要调用哪个方法。也称「运行时多态」。&lt;/p>
+&lt;p>&lt;strong>多重分派&lt;/strong>：虽然说 &lt;code>multiple&lt;/code> 是「多重」的意思，但是实际上也可称为「双重分派」。多重分派就是同时根据两种宗量的类型进行判断。&lt;/p>
+&lt;p>&lt;strong>单重分派&lt;/strong>：单重分派就是只根据其中一种宗量进行判断。&lt;/p>
+&lt;p>所以其实这两组词是从两个不同的角度来描述分派的类型，并不冲突。&lt;/p>
+&lt;h2 id="java-中的分派机制">Java 中的分派机制&lt;/h2>
+&lt;p>在网上很多博客说 Java 中是单重分派；也有人说 Java 中实际上是静态双重分派，动态单重分派。下面是我的推论和总结。&lt;/p>
+&lt;p>Java 中的重载机制，是静态分派，其根据方法传入参数的静态类型进行判断，而方法的接收者，也直接在编译期就确定。所以是静态的双重分派。&lt;/p>
+&lt;p>而重写机制，肯定是动态分派了。但是其只根据方法接收者的动态类型进行判断。并不会根据方法参数的动态类型进行判断。所以是动态的单重分派。&lt;/p>
+&lt;p>那如果一个方法同时被重写和重载了呢，那这个方法属于什么分派机制呢？我认为，重写和重载本来就分别是编译期和运行期的多态机制，就是分开进行讨论的，在程序不同生命周期时间段的分派机制直接分开讨论并进行定义就好了。&lt;/p>
+&lt;h2 id="访问者模式与伪双重分派">访问者模式与伪双重分派&lt;/h2>
+&lt;p>虽然说 Java 在编译期表现出了多重分派，但是也只能定性为单重分派语言，而这在设计代码时就会引起一些不便：在调用方法时无法根据参数的动态类型来分派对应的方法。所以我们只能曲线救国，可以通过以下两种方式实现伪动态双重分派。&lt;/p>
+&lt;h3 id="instanceof">instanceof&lt;/h3>
+&lt;p>在方法内部可以通过 Java 的 &lt;code>instanceof&lt;/code> 关键字来判断对象的动态类型。通过分支选择来进行对应的处理操作。但是这种思路会让处理代码变得十分臃肿，而且违背了「开闭原则」。每次要新增一个被处理类时，就要修改代码新增一个分支进行处理。具体的实现方法很简单，不赘述。&lt;/p>
+&lt;h3 id="访问者模式">访问者模式&lt;/h3>
+&lt;p>设计模式中的「访问者模式」就是通过利用伪双重分派来实现的。主要思路如下：&lt;/p>
+&lt;p>设调用方为「类 A 」，被调用方为「类 B 」。通过反转调用方和被调用方，让类 A 重写方法来调用类 B 的重载方法。通过 this 变量将类 A 的动态类型传递给类 B 的重载方法，实现了伪双重分派。&lt;/p>
+&lt;p>在下面这个例子中，我们想让 &lt;code>Player.play()&lt;/code> 方法根据 &lt;code>Instrument&lt;/code> 的动态类型来分别调用对应的重载方法，从而进行不同的处理：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;span class="lnt">57
+&lt;/span>&lt;span class="lnt">58
+&lt;/span>&lt;span class="lnt">59
+&lt;/span>&lt;span class="lnt">60
+&lt;/span>&lt;span class="lnt">61
+&lt;/span>&lt;span class="lnt">62
+&lt;/span>&lt;span class="lnt">63
+&lt;/span>&lt;span class="lnt">64
+&lt;/span>&lt;span class="lnt">65
+&lt;/span>&lt;span class="lnt">66
+&lt;/span>&lt;span class="lnt">67
+&lt;/span>&lt;span class="lnt">68
+&lt;/span>&lt;span class="lnt">69
+&lt;/span>&lt;span class="lnt">70
+&lt;/span>&lt;span class="lnt">71
+&lt;/span>&lt;span class="lnt">72
+&lt;/span>&lt;span class="lnt">73
+&lt;/span>&lt;span class="lnt">74
+&lt;/span>&lt;span class="lnt">75
+&lt;/span>&lt;span class="lnt">76
+&lt;/span>&lt;span class="lnt">77
+&lt;/span>&lt;span class="lnt">78
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="kd">class&lt;/span> &lt;span class="nc">Player&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kt">void&lt;/span> &lt;span class="nf">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Instrument&lt;/span> &lt;span class="n">instrument&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;instrument notes&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kt">void&lt;/span> &lt;span class="nf">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Violin&lt;/span> &lt;span class="n">violin&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;player starts playing violin&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">violin&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">note&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kt">void&lt;/span> &lt;span class="nf">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Piano&lt;/span> &lt;span class="n">piano&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;player starts playing piano&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">piano&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">note&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">class&lt;/span> &lt;span class="nc">Instrument&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kt">void&lt;/span> &lt;span class="nf">note&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;instrument notes&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kt">void&lt;/span> &lt;span class="nf">accept&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Player&lt;/span> &lt;span class="n">player&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">player&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">class&lt;/span> &lt;span class="nc">Violin&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">Instrument&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">note&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;violin notes&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">accept&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Player&lt;/span> &lt;span class="n">player&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">player&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">class&lt;/span> &lt;span class="nc">Piano&lt;/span> &lt;span class="kd">extends&lt;/span> &lt;span class="n">Instrument&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">note&lt;/span>&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;piano notes&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="nd">@Override&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">accept&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">Player&lt;/span> &lt;span class="n">player&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">player&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">class&lt;/span> &lt;span class="nc">Main&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="kd">public&lt;/span> &lt;span class="kd">static&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">args&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">Player&lt;/span> &lt;span class="n">player&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Player&lt;/span>&lt;span class="o">();&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;-------双重分派-------&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="n">Instrument&lt;/span>&lt;span class="o">[]&lt;/span> &lt;span class="n">instruments&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">{&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="n">Violin&lt;/span>&lt;span class="o">(),&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Piano&lt;/span>&lt;span class="o">()};&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">Instrument&lt;/span> &lt;span class="n">instrument&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">instruments&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">instrument&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">accept&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">player&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="n">System&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">out&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">println&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="s">&amp;#34;-------单重分派-------&amp;#34;&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="o">(&lt;/span>&lt;span class="n">Instrument&lt;/span> &lt;span class="n">instrument&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">instruments&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;span class="n">player&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="na">play&lt;/span>&lt;span class="o">(&lt;/span>&lt;span class="n">instrument&lt;/span>&lt;span class="o">);&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;span class="c1">// 结果
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="cm">/*
+&lt;/span>&lt;span class="cm"> -------双重分派-------
+&lt;/span>&lt;span class="cm"> player starts playing violin
+&lt;/span>&lt;span class="cm"> violin notes
+&lt;/span>&lt;span class="cm"> player starts playing piano
+&lt;/span>&lt;span class="cm"> piano notes
+&lt;/span>&lt;span class="cm"> -------单重分派-------
+&lt;/span>&lt;span class="cm"> instrument notes
+&lt;/span>&lt;span class="cm"> instrument notes
+&lt;/span>&lt;span class="cm">*/&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>从上方的代码运行结果可以得知，在调用重载方法时，不会根据对象的动态类型进行判断，而是根据静态类型判断，只会调用 &lt;code>play(Instrument)&lt;/code> 方法。当然，我们在重载 &lt;code>Player&lt;/code> 的方法时可以直接调用 &lt;code>Instrument.note()&lt;/code> 方法，让编译器去调用子类重写后的方法。&lt;/p>
+&lt;p>但是使用双重分派的意义在于， 把具体的处理逻辑放在调用者 &lt;code>Player&lt;/code> 类的方法中，减少对 &lt;code>Instrument&lt;/code> 的实现类的修改。事实上 &lt;code>Instrument&lt;/code> 的子类只需要实现一个 &lt;code>accept(Player)&lt;/code> 方法即可。&lt;/p>
+&lt;p>访问者模式的出现基本上也就是因为 Java 这类语言的单重分派特性吧。如果是多重分派的语言，就可以直接利用语言特性了。&lt;/p>
+&lt;p>参考文章：&lt;/p>
+&lt;ol>
+&lt;li>&lt;a href="https://www.cnblogs.com/youxin/archive/2013/05/25/3099016.html">面向对象语言的多分派、单分派、双重分派&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://stackoverflow.com/questions/5508274/what-is-dispatching-in-java">What is dispatching in JAVA?&lt;/a>&lt;/li>
+&lt;/ol></content></entry><entry><title type="text">Kudu 部署指南</title><link rel="alternate" type="text/html" href="https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/"/><id>https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</id><updated>2021-07-11T23:17:33+08:00</updated><published>2020-08-01T00:00:00+00:00</published><author><name>seyoatda</name><uri>https://seyoatda.github.io/</uri><email>seyoatda@foxmail.com</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1. Kudu的原理 1.1 概述 Kudu是一个类似Hbase的列式存储分布式数据库，它的定位介……</summary><content type="html">&lt;h1 id="1-kudu的原理">1. Kudu的原理&lt;/h1>
+&lt;h2 id="11-概述">1.1 概述&lt;/h2>
+&lt;p>Kudu是一个类似Hbase的列式存储分布式数据库，它的定位介于hdfs和hbase之间。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>hdfs&lt;/code>：使用列式存储，适合OLAP，不支持单条纪录级别的更新操作，随机读写性能差，不适合用来作实时查询。&lt;/li>
+&lt;li>&lt;code>hbase&lt;/code>：可以高效地随机读写，适用OLTP，但是不适用于SQL，且大数据量时读性能较差。&lt;/li>
+&lt;/ul>
+&lt;p>Kudu就是结合了两者的优点，平衡了两者的缺点。从而同时在OLTP和OLAP中都提供较好的性能。这样就无需为了解决以上两者的缺点而搭建两种架构。&lt;/p>
+&lt;h2 id="12-基本概念">1.2 基本概念&lt;/h2>
+&lt;p>&lt;img src="D:%5C%E5%90%8C%E6%AD%A5%E6%96%87%E6%A1%A3%5C%E7%AC%94%E8%AE%B0%5C%E5%A4%A7%E6%95%B0%E6%8D%AE%5Ckudu.assets%5C2020042021.png" alt="img">&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>Table&lt;/code>：是一张表，具有全局的主键，一张table可以分为多个段，即&lt;code>tablet&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>Tablet&lt;/code>：一个tablet是一张表连续的一个段，类似于关系型数据库的&lt;code>partition&lt;/code>分区。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>Tablet server&lt;/code>：存储tablet，并且向客户端提供读取数据的服务。&lt;/p>
+&lt;p>对于指定的tablet，有一个server作为leader，基余server作为follower副本。只有leader处理写请求，follower负责和leader同步数据，并且提供读服务。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>Master&lt;/code>：主要用于管理元数据，监听&lt;code>tserver(tablet server)&lt;/code>的状态。当client发出请求时，其先对请求做校验，再分配tserver给client进行请求。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="2-kudu的安装">2. Kudu的安装&lt;/h1>
+&lt;h2 id="21-前置条件">2.1 前置条件&lt;/h2>
+&lt;p>以下是官方文档中给出的一些条件：&lt;/p>
+&lt;h3 id="硬件">硬件&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;p>至少一个主机来作为Kudu的&lt;code>Master&lt;/code>节点，&lt;code>Master&lt;/code>节点数必须是奇数，推荐配置1个或者3个。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>至少一个主机来作为&lt;code>tablet&lt;/code>节点，如果需要备份复制，那么至少需要3个服务器&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;code>2k&lt;/code>个数量的Master节点和&lt;code>2k-1&lt;/code>个节点的容错等级是一样的。4个节点和3个节点一样，只能容忍一个错误。2个节点则不能容错。（这也是为什么官方推荐1个或3个节点的原因）&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;p>所以使用1台服务器也可以进行基本的Kudu的安装与运行&lt;/p>
+&lt;h3 id="操作系统">操作系统&lt;/h3>
+&lt;h4 id="linux">Linux&lt;/h4>
+&lt;ul>
+&lt;li>&lt;code>RHEL / CentOS 6.6+&lt;/code> or &lt;code>Ubuntu 16 18&lt;/code> or &lt;code>Debian 8&lt;/code>&lt;/li>
+&lt;li>ntp服务&lt;/li>
+&lt;li>&lt;code>xfs&lt;/code>/&lt;code>ext4&lt;/code>格式的磁盘&lt;/li>
+&lt;li>&lt;/li>
+&lt;/ul>
+&lt;h4 id="windows">Windows&lt;/h4>
+&lt;ul>
+&lt;li>不支持&lt;/li>
+&lt;/ul>
+&lt;h3 id="磁盘">磁盘&lt;/h3>
+&lt;ul>
+&lt;li>如果能使用SSD，会显著地改善Kudu的延迟&lt;/li>
+&lt;li>至少&lt;code>50GB&lt;/code>以上的磁盘空间，（实测想要完整编译，至少需要90GB以上）&lt;/li>
+&lt;/ul>
+&lt;h3 id="java">Java&lt;/h3>
+&lt;ul>
+&lt;li>JDK8 以上，但是不需要JRE&lt;/li>
+&lt;/ul>
+&lt;h2 id="22-源码编译">2.2 源码编译&lt;/h2>
+&lt;p>Kudu虽然提供了&lt;code>Docker&lt;/code>的运行方式，但是官方建议只用于测试和学习，并不推荐在正式环境使用&lt;code>Docker&lt;/code>运行。所以最好从源码编译一遍。&lt;/p>
+&lt;blockquote>
+&lt;p>编译需要使用到C++11的编译器（GCC4.8)&lt;/p>
+&lt;/blockquote>
+&lt;p>笔者使用的是&lt;code>CentOS7.7&lt;/code>，以下基于该系统进行说明。&lt;/p>
+&lt;h3 id="centos">CentOS&lt;/h3>
+&lt;p>CentOS 7.0 以上的版本就需要安装&lt;code>Red Hat Developer Toolset&lt;/code>包用于获取&lt;code>C++&lt;/code>编译器。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>安装依赖&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ sudo yum install autoconf automake cyrus-sasl-devel cyrus-sasl-gssapi &lt;span class="se">\
+&lt;/span>&lt;span class="se">&lt;/span> cyrus-sasl-plain flex gcc gcc-c++ gdb git java-1.8.0-openjdk-devel &lt;span class="se">\
+&lt;/span>&lt;span class="se">&lt;/span> krb5-server krb5-workstation libtool make openssl-devel patch &lt;span class="se">\
+&lt;/span>&lt;span class="se">&lt;/span> pkgconfig redhat-lsb-core rsync unzip vim-common which
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>笔者的系统是&lt;code>CentOS 7.7&lt;/code>，所以需要安装Toolset。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ &lt;span class="nv">DTLS_RPM&lt;/span>&lt;span class="o">=&lt;/span>rhscl-devtoolset-3-epel-6-x86_64-1-2.noarch.rpm
+$ &lt;span class="nv">DTLS_RPM_URL&lt;/span>&lt;span class="o">=&lt;/span>https://www.softwarecollections.org/repos/rhscl/devtoolset-3/epel-6-x86_64/noarch/&lt;span class="si">${&lt;/span>&lt;span class="nv">DTLS_RPM&lt;/span>&lt;span class="si">}&lt;/span>
+$ wget &lt;span class="si">${&lt;/span>&lt;span class="nv">DTLS_RPM_URL&lt;/span>&lt;span class="si">}&lt;/span> -O &lt;span class="si">${&lt;/span>&lt;span class="nv">DTLS_RPM&lt;/span>&lt;span class="si">}&lt;/span>
+$ sudo yum install -y scl-utils &lt;span class="si">${&lt;/span>&lt;span class="nv">DTLS_RPM&lt;/span>&lt;span class="si">}&lt;/span>
+$ sudo yum install -y devtoolset-3-toolchain
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>官网给出的url已经失效，安装失败。但是经验证，没有安装也能正常编译。猜测是只需要安装了&lt;code>gcc&lt;/code>并且版本大于4.8就可以了，可以使用&lt;code>gcc --version&lt;/code>命令查看版本。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ gcc --version
+gcc &lt;span class="o">(&lt;/span>GCC&lt;span class="o">)&lt;/span> 8.3.1 &lt;span class="m">20191121&lt;/span> &lt;span class="o">(&lt;/span>Red Hat 8.3.1-5&lt;span class="o">)&lt;/span>
+Copyright &lt;span class="o">(&lt;/span>C&lt;span class="o">)&lt;/span> &lt;span class="m">2018&lt;/span> Free Software Foundation, Inc.
+This is free software&lt;span class="p">;&lt;/span> see the &lt;span class="nb">source&lt;/span> &lt;span class="k">for&lt;/span> copying conditions. There is NO
+warranty&lt;span class="p">;&lt;/span> not even &lt;span class="k">for&lt;/span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>从github仓库中获取源码&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ git clone https://github.com/apache/kudu
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>使用&lt;code>build-if-necessary.sh&lt;/code>脚本可以构建任何缺失的第三方依赖。需要使用到Python，本文中安装的是&lt;code>python 3.6&lt;/code>。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ build-support/enable_devtoolset.sh thirdparty/build-if-necessary.sh
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后进行一段漫长的等待过程。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>第4步完成后才能进进正式的编译过程，选择一个除了kudu根目录以外的输出目录，进行编译：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">$ mkdir -p build/release
+$ &lt;span class="nb">cd&lt;/span> build/release
+$ ../../build-support/enable_devtoolset.sh ../../thirdparty/installed/common/bin/cmake -DCMAKE_BUILD_TYPE&lt;span class="o">=&lt;/span>release --DNO_TESTS&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> ../..
+$ make -j4
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>--DNO_TEST=1&lt;/code>参数的作用是在编译时跳过测试工作的编译，否则编译结果将十分巨大。&lt;/p>
+&lt;blockquote>
+&lt;p>安装时可以使用以下参数来跳过指定的组件：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>-DKUDU_CLIENT_INSTALL=OFF&lt;/code> 跳过kudu客户端的安装&lt;/li>
+&lt;li>&lt;code>-DKUDU_TSERVER_INSTALL=OFF&lt;/code>跳过tserver的安装&lt;/li>
+&lt;li>&lt;code>-DKUDU_MASTER_INSTALL=OFF&lt;/code>跳过master的安装&lt;/li>
+&lt;/ul>
+&lt;p>假如某个服务器只作为tserver使用，那么可以跳过master的安装以减少磁盘资源占用并加快安装过程。&lt;/p>
+&lt;/blockquote>
+&lt;p>编译过程耗时也十分久。喝上一杯茶🍵慢慢等待。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>完成编译后，构建可执行文件，库文件和头文件。进入上一步编译的输出目录，运行下面的命令进行构建。用&lt;code>DESTDIR=xxx&lt;/code>指定自己想要输出的位置，如果不指定则默认输出到&lt;code>/usr/local/&lt;/code>目录下面。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">sudo make &lt;span class="nv">DESTDIR&lt;/span>&lt;span class="o">=&lt;/span>/home/kudu install
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>至此最基本的编译安装就完成啦😊！&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="23-配置kudu">2.3 配置Kudu&lt;/h2>
+&lt;p>我们可以通过在命令行启动时传递参数来对Kudu进行配置，当参数过多时，也可在启动时使用&lt;code>–-flagfile=&amp;lt;file&amp;gt;&lt;/code>参数来引用配置文件。更奇妙地是，在配置文件中还可以通过&lt;code>--flagfile=&amp;lt;file&amp;gt;&lt;/code>来再次引用另一个配置文件，这样配置参数就相当灵活。&lt;/p>
+&lt;p>&lt;code>Master&lt;/code>和&lt;code>Tablet&lt;/code>节点的配置可以放在同一个配置文件中，它们会自动识别哪些是属于自己的配置参数。配置参数的格式为&lt;code>-–flag=xxx&lt;/code> ，前缀可以用一个或者二个&lt;code>-&lt;/code>都OK。&lt;/p>
+&lt;h3 id="231-配置目录">2.3.1 配置目录&lt;/h3>
+&lt;p>每个节点都需要手动配置目录。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>--fs_wal_dir&lt;/code>：用来配置Kudu的写前日志&lt;code>WAL&lt;/code>（Write-Ahead Log）的输出目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>--fs_metadata_dir&lt;/code>：配置Kudu每个tablet的元数据的存放目录&lt;/p>
+&lt;p>建议这些目录放在一个高性能的、有高带宽的磁盘上，例如SSD。如果&lt;code>--fs_metadata_dir&lt;/code>没有指定，那么元数据会放在&lt;code>WAL&lt;/code>的输出目录。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>--fs_data_dirs&lt;/code>：指定Kudu用于存放数据块的目录。可以通过&lt;code>,&lt;/code>分隔添加多个目录，Kudu会把数据平均地存在这些目录中，如果不指定该参数，也是会把数据块放在&lt;code>WAL&lt;/code>的输出目录中。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>&lt;code>--fs_wal_dir&lt;/code>和&lt;code>--fs_metadata_dir&lt;/code>可以设置为&lt;code>--fs_data_dirs&lt;/code>给出的目录列表中的某一个目录，但是不能是任何目录列表中目录的子目录。&lt;/p>
+&lt;/blockquote>
+&lt;p>每一个目录都只能被一个Kudu进程使用，所以多个Kudu进程要分别设置属于自己的各种目录。否则启动可能会失败。&lt;/p>
+&lt;p>以上是一些最基本的设置，更多关于Master节点的配置可在官方网站查阅：&lt;a href="https://kudu.apache.org/docs/configuration_reference.html#kudu-master_supported">kudu-Master配置项&lt;/a>&lt;/p>
+&lt;h2 id="24-部署实战">2.4 部署实战&lt;/h2>
+&lt;p>现在有5台服务器资源，经考虑，部署1个Master节点，3个Tablet节点。部署情况如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>服务器IP&lt;/th>
+&lt;th>内存&lt;/th>
+&lt;th>磁盘&lt;/th>
+&lt;th>部署服务&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>120.40.185.*&lt;/td>
+&lt;td>16GB&lt;/td>
+&lt;td>ESSD 云盘100GB &lt;br />ESSD 云盘500GB&lt;/td>
+&lt;td>Kudu Tablet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>116.62.161.*&lt;/td>
+&lt;td>16GB&lt;/td>
+&lt;td>ESSD 云盘100GB &lt;br />ESSD 云盘500GB&lt;/td>
+&lt;td>Kudu Tablet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>121.41.10.*&lt;/td>
+&lt;td>16GB&lt;/td>
+&lt;td>ESSD 云盘100GB &lt;br />ESSD 云盘500GB&lt;/td>
+&lt;td>Kudu Tablet&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>112.124.30.*&lt;/td>
+&lt;td>16GB&lt;/td>
+&lt;td>ESSD 云盘100GB &lt;br />ESSD 云盘100GB&lt;/td>
+&lt;td>Kudu Master&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="241-基本过程">2.4.1 基本过程&lt;/h3>
+&lt;p>先分别在四台机上安装Kudu，由于每台服务器只提供一个Master或Tablet节点，所以在安装时可以跳过不需要的部分，这样可以减少对系统资源的占用。安装过程参考上文。&lt;/p>
+&lt;p>在安装完之后，分别编写配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="c1"># tserver配置&lt;/span>
+--fs_wal_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/tserver/wal
+--fs_data_dirs&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/tserver/data
+--fs_metadata_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/tserver/metadata
+--log_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/tserver/logs
+--tserver_master_addrs&lt;span class="o">=&lt;/span>112.124.30.113:7051
+--webserver_doc_root&lt;span class="o">=&lt;/span>/home/kudu/kudu/www
+&lt;span class="c1"># master 配置&lt;/span>
+--fs_wal_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/master/wal
+--fs_data_dirs&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/master/data
+--fs_metadata_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/master/metadata
+--log_dir&lt;span class="o">=&lt;/span>/home/kudu/kudu_data/master/logs
+--webserver_doc_root&lt;span class="o">=&lt;/span>/home/kudu/kudu/www
+--trusted_subnets&lt;span class="o">=&lt;/span>0.0.0.0/0
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>master&lt;/code>和&lt;code>tserver&lt;/code>的前四个配置是在&lt;code>2.3&lt;/code>小节提到的基本配置参数。&lt;/p>
+&lt;p>&lt;code>--webserver_doc_root&lt;/code>是为了能在8051端口看到Kudu的Master节点的一些详细信息（tserver节点的默认端口是8050）。需要指定静态文件的路径，否则在访问8051会报错：&lt;/p>
+&lt;p>&lt;strong>Static pages not available. Configure KUDU_HOME or use the --webserver_doc_root flag to fix page styling.&lt;/strong>&lt;/p>
+&lt;p>由报错信息可知，也可以通过设置&lt;code>KUDU_HOME&lt;/code>环境变量来解决，但是笔者在实践时这一方法失效了，所以采取了第2种方法。同时这个WebUI的访问端口也可以通过&lt;code>–-webserver_port&lt;/code>参数来修改。&lt;/p>
+&lt;p>tserver节点需要额外配置一个&lt;code>--tserver_master_addrs&lt;/code>参数，指定一串master节点地址的数组。用于将tserver连接到mastser节点。&lt;/p>
+&lt;p>&lt;code>–trusted_subnets&lt;/code>参数设置在master上，为了让master节点能够接受tserver节点的连接请求，这里设为&lt;code>0.0.0.0/0&lt;/code>接受所有的ip。当然也可以只单独添加其他节点的ip。&lt;/p>
+&lt;p>启动后进入master节点的8051端口，点击&lt;code>Tablet Servers&lt;/code>可以看到节点已经连上&lt;/p>
+&lt;p>&lt;img src="D:%5C%E5%90%8C%E6%AD%A5%E6%96%87%E6%A1%A3%5C%E7%AC%94%E8%AE%B0%5C%E5%A4%A7%E6%95%B0%E6%8D%AE%5Ckudu.assets%5Cimage-20200811160001948.png" alt="image-20200811160001948">&lt;/p>
+&lt;h1 id="3-模式设计">3. 模式设计&lt;/h1>
+&lt;p>Kudu的表格模型结构和传统关系型数据库的模型类似。但是Kudu表的设计要注意的地方又和这些&lt;code>RDBMS&lt;/code>不太一样。在Kudu中建表时要着重关注以下3点：&lt;/p>
+&lt;ol>
+&lt;li>列设计&lt;/li>
+&lt;li>主键设计&lt;/li>
+&lt;li>分区设计&lt;/li>
+&lt;/ol>
+&lt;p>当然前两点在&lt;code>RDBMS&lt;/code>中也经常涉及到。&lt;/p>
+&lt;h2 id="31-完美的模式">3.1 完美的模式&lt;/h2>
+&lt;p>Kudu的官方网站中介绍了一个完美的模式&lt;code>(Schema)&lt;/code>应该满足哪些条件：&lt;/p>
+&lt;ol>
+&lt;li>数据的分布情况能够使每个服务器接收的读写请求量都差不多，这样每台服务器的压力都不会太大，也不会太小。这取决于分区的设计。&lt;/li>
+&lt;li>Tablets能够以可预测的速度平缓地增长，并且读取Tablets的耗时不会发生太大的变化。这也很大程度上受分区的影响。&lt;/li>
+&lt;li>读取操作只扫描查询所需要的数据。这个条件一方面取决于主键的设计，另一方面也会受通过分区设计进行的分区裁剪的影响。&lt;/li>
+&lt;/ol>
+&lt;h2 id="32-列设计">3.2 列设计&lt;/h2>
+&lt;p>Kudu支持以下列数据类型：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>BOOL&lt;/code>：布尔类型&lt;/li>
+&lt;li>&lt;code>INT8&lt;/code>：8位有符号整数&lt;/li>
+&lt;li>&lt;code>INT32&lt;/code>：32位有符号整数&lt;/li>
+&lt;li>&lt;code>INT64&lt;/code>：64位有符号整数&lt;/li>
+&lt;li>&lt;code>DATE&lt;/code>：32位的天数，以Unix时间戳表示&lt;/li>
+&lt;li>&lt;code>UNIXTIME_MICROS&lt;/code>：64位的毫秒数，以Unix时间戳表示&lt;/li>
+&lt;li>&lt;code>FLOAT&lt;/code>：32位浮点数&lt;/li>
+&lt;li>&lt;code>DOUBLE&lt;/code>：64位浮点数&lt;/li>
+&lt;li>&lt;code>DECIMAL&lt;/code>：固定精度数字类型&lt;/li>
+&lt;li>&lt;code>VARCHAR&lt;/code>：不定长字符串&lt;/li>
+&lt;li>&lt;code>STRING&lt;/code>：UTF-8编码的不限长字符串，最大存储64KB的数据（未压缩）&lt;/li>
+&lt;li>&lt;code>BINARY&lt;/code>：二进制数据，最大64KB（未压缩）&lt;/li>
+&lt;/ul>
+&lt;p>Kudu是使用列式存储的，所以在设计表的时候，最好能够为每一个列指定最合适的数据类型，而不是一股脑地全部设为&lt;code>STRING&lt;/code>或者&lt;code>BINARY&lt;/code>之类的。&lt;/p></content><category scheme="https://seyoatda.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" term="数据库" label="数据库"/><category scheme="https://seyoatda.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" term="大数据" label="大数据"/><category scheme="https://seyoatda.github.io/tags/nosql/" term="nosql" label="nosql"/></entry><entry><title type="text">日志采集链路部署指南</title><link rel="alternate" type="text/html" href="https://seyoatda.github.io/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/"/><id>https://seyoatda.github.io/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</id><updated>2021-07-11T23:17:33+08:00</updated><published>2020-06-18T17:42:45+08:00</published><author><name>seyoatda</name><uri>https://seyoatda.github.io/</uri><email>seyoatda@foxmail.com</email></author><rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</rights><summary type="html">1. 概述 一个完整的采集链路的流程如下： 所以要进行采集链路的部署需要以下几个步聚： ngi……</summary><content type="html">&lt;h1 id="1-概述">1. 概述&lt;/h1>
+&lt;p>一个完整的采集链路的流程如下：&lt;/p>
+&lt;p>&lt;img src="https://seyoatda.github.io/img/image-20200907094954218.png" alt="image-20200907094954218">&lt;/p>
+&lt;p>所以要进行采集链路的部署需要以下几个步聚：&lt;/p>
+&lt;ol>
+&lt;li>nginx的配置&lt;/li>
+&lt;li>filebeat部署&lt;/li>
+&lt;li>logstash部署&lt;/li>
+&lt;li>kafka部署&lt;/li>
+&lt;li>kudu部署&lt;/li>
+&lt;/ol>
+&lt;p>下面将详细说明各个部分的部署方法，以及一些基本的配置参数。&lt;/p>
+&lt;h1 id="2-部署流程">2. 部署流程&lt;/h1>
+&lt;h2 id="nginx">nginx&lt;/h2>
+&lt;h3 id="1-安装">1. 安装&lt;/h3>
+&lt;p>nginx安装直接去官网下载一个压缩文件解压然后用&lt;code>sbin/nginx&lt;/code>运行就可以了。&lt;/p>
+&lt;h3 id="2-配置">2. 配置&lt;/h3>
+&lt;h4 id="21-日志输出格式">2.1 日志输出格式&lt;/h4>
+&lt;p>nginx是采集链路的第一个环节，后面的日志采集系统是通过采集nginx日志进行分析的。本节主要对nginx的日志处理的配置进行描述。&lt;/p>
+&lt;p>对&lt;code>nginx.conf&lt;/code>文件进行配置：&lt;/p>
+&lt;pre>&lt;code class="language-conf" data-lang="conf"> log_format log_json escape=json '{ &amp;quot;@timestamp&amp;quot;: &amp;quot;$time_local&amp;quot;, '
+'&amp;quot;remote_addr&amp;quot;: &amp;quot;$remote_addr&amp;quot;, '
+'&amp;quot;referer&amp;quot;: &amp;quot;$http_referer&amp;quot;, '
+'&amp;quot;project&amp;quot;: &amp;quot;$arg_project&amp;quot;, '
+'&amp;quot;request&amp;quot;: &amp;quot;$request&amp;quot;, '
+'&amp;quot;status&amp;quot;: $status, '
+'&amp;quot;bytes&amp;quot;: $body_bytes_sent, '
+'&amp;quot;request_body&amp;quot;: &amp;quot;$request_body&amp;quot;,'
+'&amp;quot;data&amp;quot;: &amp;quot;$arg_data&amp;quot;,'
+'&amp;quot;cookies&amp;quot;: &amp;quot;$http_cookie&amp;quot;'
+' }';
+&lt;/code>&lt;/pre>&lt;p>上面的代码定义了一个nginx的日志输出格式并命名为&lt;code>log_json&lt;/code>，并且使用&lt;code>escape=json&lt;/code>参数来把变量中可能包含的json字符串自动转义。&lt;/p>
+&lt;p>这个日志输出哪些变量都可以灵活配置，取决于采集框架怎么进行数据解析。在本文中，前端发送的请求中，埋点数据可能出现在request body中，也可能出现在url参数中以&lt;code>data=xxx&lt;/code>的形式转递，所以将这两个变量打印到日志中。&lt;/p>
+&lt;p>输出格式也可以灵活配置，在logstash的输入解析中进行对应的调整就可以了。使用&lt;code>json&lt;/code>格式可以直接用&lt;code>json&lt;/code>插件进行解析，否则可能就要用&lt;code>grok&lt;/code>插件自己写正则进行解析了。这里推荐输出为&lt;code>json&lt;/code>格式。&lt;/p>
+&lt;h4 id="22-监听配置">2.2 监听配置&lt;/h4>
+&lt;pre>&lt;code> ...
+http {
+...
+server {
+listen 2346;
+access_log logs/data_tracking/access.log log_json;
+location / {
+error_page 405 =200 $request_uri;
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;p>配置监听埋点端口，将请求日志打印到单独的一个文件夹中避免和其他日志混淆，并指定输出格式为上一节配置好的&lt;code>log_json&lt;/code>。&lt;/p>
+&lt;p>同时把根请求的&lt;code>405&lt;/code>代码转发为&lt;code>200&lt;/code>，因为请求监听的端口并没有任何资源，请求会返回&lt;code>status_code = 405&lt;/code>。&lt;/p>
+&lt;h2 id="filebeat">filebeat&lt;/h2>
+&lt;p>filebeat是一款开源的轻量级日志采集工具，主要用于整合各个路径下的各种不同的日志文件，并且统一输出到指定的输出点。&lt;/p>
+&lt;p>对于filebeat的配置较为简单，而filebeat提供的功能也十分有限，只能进行简单的日志采集工作，所以需要和logstash配和使用&lt;/p>
+&lt;h3 id="1-安装-1">1. 安装&lt;/h3>
+&lt;p>可以直接在官网下载rpm或deb包：&lt;/p>
+&lt;p>&lt;a href="https://www.elastic.co/cn/downloads/beats/filebeat">https://www.elastic.co/cn/downloads/beats/filebeat&lt;/a>&lt;/p>
+&lt;p>下载后直接使用&lt;code>yum localinstall {pacakgeName}&lt;/code>进行安装。&lt;/p>
+&lt;p>或者使用包管理软件如 apt 和 yum 进行安装：&lt;/p>
+&lt;p>首先引入公有签名key&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">sudo rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后再添加一个repo文件到&lt;code>/etc/yum.repos.d/&lt;/code>目录中&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="o">[&lt;/span>elastic-7.x&lt;span class="o">]&lt;/span>
+&lt;span class="nv">name&lt;/span>&lt;span class="o">=&lt;/span>Elastic repository &lt;span class="k">for&lt;/span> 7.x packages
+&lt;span class="nv">baseurl&lt;/span>&lt;span class="o">=&lt;/span>https://artifacts.elastic.co/packages/7.x/yum
+&lt;span class="nv">gpgcheck&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="nv">gpgkey&lt;/span>&lt;span class="o">=&lt;/span>https://artifacts.elastic.co/GPG-KEY-elasticsearch
+&lt;span class="nv">enabled&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="nv">autorefresh&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;span class="nv">type&lt;/span>&lt;span class="o">=&lt;/span>rpm-md
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最后使用&lt;code>yum&lt;/code>命令直接安装即可。&lt;/p>
+&lt;h3 id="2-配置和启动">2. 配置和启动&lt;/h3>
+&lt;p>filebeat默认安装在&lt;code>/usr/share/filebeat&lt;/code>下&lt;/p>
+&lt;p>filebeat目录结构说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>home&lt;/code> 安装的根目录&lt;/li>
+&lt;li>&lt;code>bin&lt;/code> 一些二进制执行文件&lt;/li>
+&lt;li>&lt;code>config&lt;/code> 配置文件&lt;/li>
+&lt;li>&lt;code>data&lt;/code> 持久化的数据文件&lt;/li>
+&lt;li>&lt;code>logs&lt;/code> filebeat运行日志&lt;/li>
+&lt;/ul>
+&lt;p>在运行filebeat前，需要对filebeat的一些运行参数进行配置。&lt;/p>
+&lt;p>首先需要在filebeat根目录下新建一个&lt;code>filebeat.yml&lt;/code>配置文件，并在其中写入如下的内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="nt">filebeat.inputs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">log&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">paths&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">/var/log/*.log&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">output.logstash&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hosts:[&amp;#34;localhost:5044&amp;#34;]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>注意：所有的横线后都要空一格，不能直接跟字符串。这是YAML的语法格式，可以去了解一下。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;code>filebeat.inputs&lt;/code>指定了输入的配置。其中&lt;code>type&lt;/code>指定了输入的类型是日志类型。&lt;code>paths&lt;/code>指定了输入文件的路径，表示读取&lt;code>/var/log/&lt;/code>路径下的所有&lt;code>.log&lt;/code>结尾的文件。&lt;/p>
+&lt;p>&lt;code>output.logstash&lt;/code>指定了输出到logstash的配置。其中&lt;code>hosts&lt;/code>可以指定一个数组，写入多个输出地址。&lt;/p>
+&lt;p>设置开机启动filebeat&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">systemctl &lt;span class="nb">enable&lt;/span> filebeat
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过&lt;code>bin/filebeat&lt;/code>文件启动filebeat用:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">bin/filebeat -e -c filebeat.yml
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="3-和nginx的配合">3. 和nginx的配合&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>首先修改&lt;code>filebeat.yml&lt;/code>中的&lt;code>paths&lt;/code>，指定输入为nginx埋点日志的输出位置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>使用&lt;code>include_lines&lt;/code>，指定正则表达式来过滤不符合要求的行。&lt;/p>
+&lt;blockquote>
+&lt;p>nginx日志输出格式是一个请求一行。否则进行单行过滤的时候会有大问题。&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>输出配置最好指定为内网ip。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="nt">filebeat&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">inputs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">log&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">enabled&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">paths&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>- &lt;span class="l">/usr/local/openresty/nginx/logs/data_tracking/access.log*&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">include_lines&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s1">&amp;#39;&amp;#34;project&amp;#34;: &amp;#34;test_bank_event&amp;#34;&amp;#39;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="nt">output.logstash&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nt">hosts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;192.168.0.34:5055&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="logstash">logstash&lt;/h2>
+&lt;p>logstash相对于filebeat并没有那么轻量，但相对来说有更多的功能和数据处理功能。所以一般将filebeat和logstash结合使用。用filebeat读取日志文件并输出到logstash中，再进行后续的数据处理。&lt;/p>
+&lt;h3 id="1-安装-2">1. 安装&lt;/h3>
+&lt;p>logstash的安装方法和filebeat的安装基本相同，可以在官网下载安装包进行安装，在此不再赘述。&lt;/p>
+&lt;p>&lt;a href="https://www.elastic.co/cn/downloads/logstash">https://www.elastic.co/cn/downloads/logstash&lt;/a>&lt;/p>
+&lt;h3 id="2-配置和启动-1">2. 配置和启动&lt;/h3>
+&lt;p>logstash 的默认安装路径也位于&lt;code>/usr/share/&lt;/code>目录下。&lt;/p>
+&lt;p>其启动文件是安装根目录下的&lt;code>bin/logstash&lt;/code>，对于一些简单的配置信息，可以直接以命令行参数的形式指定：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">bin/logstash -e &lt;span class="s1">&amp;#39;input { stdin {}} output{ stdout{}}&amp;#39;&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这行命令指定了最基本的&lt;code>input&lt;/code>和&lt;code>output&lt;/code>为标准输入和标准输出。启动后直接在命令行输入内容，回车后就可以看到结构化处理后的数据输出：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">hello world
+/usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/awesome_print-1.7.0/lib/awesome_print/formatters/base_formatter.rb:31: warning: constant ::Fixnum is deprecated
+&lt;span class="o">{&lt;/span>
+&lt;span class="s2">&amp;#34;@timestamp&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span>&amp;gt; 2020-06-08T03:38:04.658Z,
+&lt;span class="s2">&amp;#34;host&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span>&amp;gt; &lt;span class="s2">&amp;#34;hadoop&amp;#34;&lt;/span>,
+&lt;span class="s2">&amp;#34;message&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span>&amp;gt; &lt;span class="s2">&amp;#34;hello world&amp;#34;&lt;/span>,
+&lt;span class="s2">&amp;#34;@version&amp;#34;&lt;/span> &lt;span class="o">=&lt;/span>&amp;gt; &lt;span class="s2">&amp;#34;1&amp;#34;&lt;/span>
+&lt;span class="o">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>要进行更多的配置，最好在安装根目录下新建一个 .conf格式的配置文件。&lt;/p>
+&lt;p>要将logstash和filebeat联合使用，需要让logstash接受一个beats格式的输入：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="l">input{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">beats{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">port =&amp;gt; &amp;#34;5044&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>}&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>}&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="c"># filter{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="c">#&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="c"># }&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>&lt;span class="l">output {&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">stdout { codec =&amp;gt; rubydebug}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;span class="w">&lt;/span>}&lt;span class="w">
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>上述配置指定了一个beats类型的input，并设置端口为5044&lt;/p>
+&lt;p>在写好配置文件后可以使用下面的命令对配置进行检查，其中&lt;code>-f&lt;/code>指定了要加载的配置文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">bin/logstash -f first-pipeline.conf --config.test_and_exit
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>--config.test_and_exit&lt;/code>命令会加载配置文件并检查是否有错误，并在输出检查结果后自动退出。&lt;/p>
+&lt;p>如果检查通过，那么就可以启动logstash了：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-shell" data-lang="shell">bin/logstash -f first-pipeline.conf --config.reload.automatic
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>--config.reload.automatic&lt;/code>命令开启了自动重载配置的功能，所以在修改完配置文件后可以不用重启服务，logstash会自动加载更新后的配置。&lt;/p>
+&lt;p>如果在filebeat中配置的输出地址和logstash中的输入beats地址相同，那么在启动了这两个服务后，logstash就可以收到filebeat读取到的日志内容。其基本格式和上文中从标准输入获取数据并输出的格式类似。&lt;/p>
+&lt;h3 id="3-和filebeat的配合">3. 和filebeat的配合&lt;/h3>
+&lt;p>在输入配置了对应的filebeat的端口后，接下来主要是配置&lt;code>filter&lt;/code>模块对日志进行解析，这部分也要根据&lt;code>nginx&lt;/code>日志的结构进行灵活的配置。&lt;code>filebeat&lt;/code>主要用来收集数据传输给&lt;code>logstash&lt;/code>，当然&lt;code>filebeat&lt;/code>中也可以进行一些简单的数据处理，但还是推荐&lt;code>filebeat&lt;/code>只负责收集日志，发送到&lt;code>logstash&lt;/code>进行统一处理。&lt;/p>
+&lt;p>下面是一份&lt;code>logstash&lt;/code>的conf文件用于参考：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-ruby" data-lang="ruby">&lt;span class="n">filter&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="c1"># 首先对filebeat中的数据进行解析，其中&amp;#39;message&amp;#39;对应的值才是我们真正要解析的埋点数据&lt;/span>
+&lt;span class="c1"># 其他还有很多filebeat自动生成的数据。&lt;/span>
+&lt;span class="c1"># 这里使用json插件进行解析，解析完后就可以删除原来的变量了，减少不必要的数据传输&lt;/span>
+&lt;span class="n">json&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="n">source&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s2">&amp;#34;message&amp;#34;&lt;/span>
+&lt;span class="n">remove_field&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="o">[&lt;/span>&lt;span class="s2">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="o">]&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1"># 对埋点数据进行url解码，因为埋点数据可能是通过url传输的，可能会有进行过url编码&lt;/span>
+&lt;span class="n">urldecode&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="n">all_fields&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="kp">true&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1"># 使用ruby进行base64解码，目标是&amp;#39;data&amp;#39;变量，结果赋值给新建的&amp;#39;b64_decoded&amp;#39;变量。&lt;/span>
+&lt;span class="n">ruby&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="n">init&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s2">&amp;#34;require &amp;#39;base64&amp;#39;&amp;#34;&lt;/span>
+&lt;span class="n">code&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s2">&amp;#34;event.set(&amp;#39;b64_decoded&amp;#39;, Base64.decode64(event.get(&amp;#39;data&amp;#39;))) if event.include?(&amp;#39;data&amp;#39;)&amp;#34;&lt;/span>
+&lt;span class="c1">#这里解码出刚刚截取出来的msg字段&lt;/span>
+&lt;span class="n">remove_field&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="o">[&lt;/span>&lt;span class="s2">&amp;#34;data&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;request&amp;#34;&lt;/span>&lt;span class="o">]&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1"># 在解码后再进行一次json解析，把json字符串转换为json结构体&lt;/span>
+&lt;span class="n">json&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="n">source&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s2">&amp;#34;b64_decoded&amp;#34;&lt;/span>
+&lt;span class="n">remove_field&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="o">[&lt;/span>&lt;span class="s2">&amp;#34;b64_decoded&amp;#34;&lt;/span>&lt;span class="o">]&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="4-和kafka的配合">4. 和kafka的配合&lt;/h3>
+&lt;p>由于本链路使用的存储为&lt;code>kudu&lt;/code>数据库，而logstash是不支持直接写入&lt;code>kudu&lt;/code>的；并且要考虑到并发处理和容错，所以要先将数据写入&lt;code>kafka&lt;/code>消息队列，再由&lt;code>kafka&lt;/code>写入&lt;code>kudu&lt;/code>。&lt;/p>
+&lt;p>主要是配置conf文件中的&lt;code>output&lt;/code>模块：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-ruby" data-lang="ruby">&lt;span class="n">output&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="n">kafka&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="c1"># 输出为json格式&lt;/span>
+&lt;span class="n">codec&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="n">json&lt;/span>
+&lt;span class="c1"># 指定topic为&amp;#39;test_event&amp;#39;&lt;/span>
+&lt;span class="n">topic_id&lt;/span> &lt;span class="o">=&amp;gt;&lt;/span> &lt;span class="s2">&amp;#34;test_event&amp;#34;&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>必要的配置就只有&lt;code>topic_id&lt;/code>，更多的配置参考logstash官方文档对&lt;code>kafka&lt;/code>插件的介绍。&lt;/p>
+&lt;p>​&lt;/p></content></entry></feed>
