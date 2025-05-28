@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://seyoatda.github.io/sitemap.xml

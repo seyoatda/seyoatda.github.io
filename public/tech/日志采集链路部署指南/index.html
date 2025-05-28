@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="zh" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>日志采集链路部署指南 &middot; </title>
+  <meta name="title" content="日志采集链路部署指南 &middot; " />
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://seyoatda.github.io/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.5f8f4777872a0d3d0d40b3754a43f54f29ae82af8e7ee8b8cb972495c44f0d770b15cd4194b7a49bc85950ac492768c127b305a57fc92ed77bf7e230fb6530a4.css"
+    integrity="sha512-X49Hd4cqDT0NQLN1SkP1Tymugq&#43;Ofui4y5cklcRPDXcLFc1BlLekm8hZUKxJJ2jBJ7MFpX/JLtd79&#43;Iw&#43;2UwpA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.165327e9b2a9a8807ad5cb6c943a8f9a52756791c128e2dbfb3623bb42429636adb4bbb076b0447b592cad02914321a6aef0db10b907465de34fda41e2830281.js"
+    integrity="sha512-FlMn6bKpqIB61ctslDqPmlJ1Z5HBKOLb&#43;zYju0JCljattLuwdrBEe1ksrQKRQyGmrvDbELkHRl3jT9pB4oMCgQ==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.f592a181a15d2a5b042daa7f746c3721acf9063f8b6acd175d989129865a37d400ae0e85b640f9ad42cd98d1f8ad30931718cf8811abdcc5fcb264400d1a2b0c.js" integrity="sha512-9ZKhgaFdKlsELap/dGw3Iaz5Bj&#43;Las0XXZiRKYZaN9QArg6FtkD5rULNmNH4rTCTFxjPiBGr3MX8smRADRorDA=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="https://seyoatda.github.io/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+  <meta property="og:title" content="日志采集链路部署指南">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2020-06-18T17:42:45+08:00">
+    <meta property="article:modified_time" content="2020-06-18T17:42:45+08:00">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="日志采集链路部署指南">
+
+    
+  
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Teches",
+    "name": "日志采集链路部署指南",
+    "headline": "日志采集链路部署指南",
+    
+    
+    "inLanguage": "zh",
+    "url" : "https:\/\/seyoatda.github.io\/tech\/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-06-18T17:42:45\u002b08:00",
+    "datePublished": "2020-06-18T17:42:45\u002b08:00",
+    
+    "dateModified": "2020-06-18T17:42:45\u002b08:00",
+    
+    
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "355"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span></a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start gap-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900"></a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class=" flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400 ltr:mr-1 rtl:ml-1">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      日志采集链路部署指南
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-06-18T17:42:45&#43;08:00"></time><span class="px-2 text-primary-500">&middot;</span><span></span><span class="px-2 text-primary-500">&middot;</span><span title=""></span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">1. 概述 
+    <div id="1-概述" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%e6%a6%82%e8%bf%b0" aria-label="">#</a>
+    </span>        
+    
+</h1>
+<p>一个完整的采集链路的流程如下：</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image-20200907094954218" src="/img/image-20200907094954218.png" />
+
+  
+</figure>
+</p>
+<p>所以要进行采集链路的部署需要以下几个步聚：</p>
+<ol>
+<li>nginx的配置</li>
+<li>filebeat部署</li>
+<li>logstash部署</li>
+<li>kafka部署</li>
+<li>kudu部署</li>
+</ol>
+<p>下面将详细说明各个部分的部署方法，以及一些基本的配置参数。</p>
+
+<h1 class="relative group">2. 部署流程 
+    <div id="2-部署流程" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%e9%83%a8%e7%bd%b2%e6%b5%81%e7%a8%8b" aria-label="">#</a>
+    </span>        
+    
+</h1>
+
+<h2 class="relative group">nginx 
+    <div id="nginx" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#nginx" aria-label="">#</a>
+    </span>        
+    
+</h2>
+
+<h3 class="relative group">1. 安装 
+    <div id="1-安装" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%e5%ae%89%e8%a3%85" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>nginx安装直接去官网下载一个压缩文件解压然后用<code>sbin/nginx</code>运行就可以了。</p>
+
+<h3 class="relative group">2. 配置 
+    <div id="2-配置" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%e9%85%8d%e7%bd%ae" aria-label="">#</a>
+    </span>        
+    
+</h3>
+
+<h4 class="relative group">2.1 日志输出格式 
+    <div id="21-日志输出格式" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#21-%e6%97%a5%e5%bf%97%e8%be%93%e5%87%ba%e6%a0%bc%e5%bc%8f" aria-label="">#</a>
+    </span>        
+    
+</h4>
+<p>nginx是采集链路的第一个环节，后面的日志采集系统是通过采集nginx日志进行分析的。本节主要对nginx的日志处理的配置进行描述。</p>
+<p>对<code>nginx.conf</code>文件进行配置：</p>
+<pre tabindex="0"><code class="language-conf" data-lang="conf"> log_format log_json escape=json &#39;{ &#34;@timestamp&#34;: &#34;$time_local&#34;, &#39;
+                        &#39;&#34;remote_addr&#34;: &#34;$remote_addr&#34;, &#39;
+                        &#39;&#34;referer&#34;: &#34;$http_referer&#34;, &#39;
+                        &#39;&#34;project&#34;: &#34;$arg_project&#34;, &#39;
+                        &#39;&#34;request&#34;: &#34;$request&#34;, &#39;
+                        &#39;&#34;status&#34;: $status, &#39;
+                        &#39;&#34;bytes&#34;: $body_bytes_sent, &#39;
+                        &#39;&#34;request_body&#34;: &#34;$request_body&#34;,&#39;
+                        &#39;&#34;data&#34;: &#34;$arg_data&#34;,&#39;
+                        &#39;&#34;cookies&#34;: &#34;$http_cookie&#34;&#39;
+                        &#39; }&#39;;
+</code></pre><p>上面的代码定义了一个nginx的日志输出格式并命名为<code>log_json</code>，并且使用<code>escape=json</code>参数来把变量中可能包含的json字符串自动转义。</p>
+<p>这个日志输出哪些变量都可以灵活配置，取决于采集框架怎么进行数据解析。在本文中，前端发送的请求中，埋点数据可能出现在request body中，也可能出现在url参数中以<code>data=xxx</code>的形式转递，所以将这两个变量打印到日志中。</p>
+<p>输出格式也可以灵活配置，在logstash的输入解析中进行对应的调整就可以了。使用<code>json</code>格式可以直接用<code>json</code>插件进行解析，否则可能就要用<code>grok</code>插件自己写正则进行解析了。这里推荐输出为<code>json</code>格式。</p>
+
+<h4 class="relative group">2.2 监听配置 
+    <div id="22-监听配置" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#22-%e7%9b%91%e5%90%ac%e9%85%8d%e7%bd%ae" aria-label="">#</a>
+    </span>        
+    
+</h4>
+<pre tabindex="0"><code> ...
+ 
+ http {
+ 	...
+ 	
+ 	server {
+         listen 2346;
+         access_log logs/data_tracking/access.log log_json;
+         location / {
+             error_page 405 =200 $request_uri;
+         }
+     }
+}
+</code></pre><p>配置监听埋点端口，将请求日志打印到单独的一个文件夹中避免和其他日志混淆，并指定输出格式为上一节配置好的<code>log_json</code>。</p>
+<p>同时把根请求的<code>405</code>代码转发为<code>200</code>，因为请求监听的端口并没有任何资源，请求会返回<code>status_code = 405</code>。</p>
+
+<h2 class="relative group">filebeat 
+    <div id="filebeat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#filebeat" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>filebeat是一款开源的轻量级日志采集工具，主要用于整合各个路径下的各种不同的日志文件，并且统一输出到指定的输出点。</p>
+<p>对于filebeat的配置较为简单，而filebeat提供的功能也十分有限，只能进行简单的日志采集工作，所以需要和logstash配和使用</p>
+
+<h3 class="relative group">1. 安装 
+    <div id="1-安装-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%e5%ae%89%e8%a3%85-1" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>可以直接在官网下载rpm或deb包：</p>
+<p><a href="https://www.elastic.co/cn/downloads/beats/filebeat" target="_blank">https://www.elastic.co/cn/downloads/beats/filebeat</a></p>
+<p>下载后直接使用<code>yum localinstall {pacakgeName}</code>进行安装。</p>
+<p>或者使用包管理软件如 apt 和 yum 进行安装：</p>
+<p>首先引入公有签名key</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+</span></span></code></pre></div><p>然后再添加一个repo文件到<code>/etc/yum.repos.d/</code>目录中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#f92672">[</span>elastic-7.x<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">=</span>Elastic repository <span style="color:#66d9ef">for</span> 7.x packages
+</span></span><span style="display:flex;"><span>baseurl<span style="color:#f92672">=</span>https://artifacts.elastic.co/packages/7.x/yum
+</span></span><span style="display:flex;"><span>gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>gpgkey<span style="color:#f92672">=</span>https://artifacts.elastic.co/GPG-KEY-elasticsearch
+</span></span><span style="display:flex;"><span>enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>autorefresh<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>type<span style="color:#f92672">=</span>rpm-md
+</span></span></code></pre></div><p>最后使用<code>yum</code>命令直接安装即可。</p>
+
+<h3 class="relative group">2. 配置和启动 
+    <div id="2-配置和启动" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%e9%85%8d%e7%bd%ae%e5%92%8c%e5%90%af%e5%8a%a8" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>filebeat默认安装在<code>/usr/share/filebeat</code>下</p>
+<p>filebeat目录结构说明：</p>
+<ul>
+<li><code>home</code> 安装的根目录</li>
+<li><code>bin</code> 一些二进制执行文件</li>
+<li><code>config</code> 配置文件</li>
+<li><code>data</code> 持久化的数据文件</li>
+<li><code>logs</code> filebeat运行日志</li>
+</ul>
+<p>在运行filebeat前，需要对filebeat的一些运行参数进行配置。</p>
+<p>首先需要在filebeat根目录下新建一个<code>filebeat.yml</code>配置文件，并在其中写入如下的内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">filebeat.inputs</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">type</span>: <span style="color:#ae81ff">log</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">paths</span>: - <span style="color:#ae81ff">/var/log/*.log</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">output.logstash</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">hosts:[&#34;localhost:5044&#34;]</span>
+</span></span></code></pre></div><blockquote>
+<p>注意：所有的横线后都要空一格，不能直接跟字符串。这是YAML的语法格式，可以去了解一下。</p></blockquote>
+<p><code>filebeat.inputs</code>指定了输入的配置。其中<code>type</code>指定了输入的类型是日志类型。<code>paths</code>指定了输入文件的路径，表示读取<code>/var/log/</code>路径下的所有<code>.log</code>结尾的文件。</p>
+<p><code>output.logstash</code>指定了输出到logstash的配置。其中<code>hosts</code>可以指定一个数组，写入多个输出地址。</p>
+<p>设置开机启动filebeat</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable filebeat
+</span></span></code></pre></div><p>通过<code>bin/filebeat</code>文件启动filebeat用:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>bin/filebeat -e -c filebeat.yml
+</span></span></code></pre></div>
+<h3 class="relative group">3. 和nginx的配合 
+    <div id="3-和nginx的配合" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-%e5%92%8cnginx%e7%9a%84%e9%85%8d%e5%90%88" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<ol>
+<li>
+<p>首先修改<code>filebeat.yml</code>中的<code>paths</code>，指定输入为nginx埋点日志的输出位置。</p>
+</li>
+<li>
+<p>使用<code>include_lines</code>，指定正则表达式来过滤不符合要求的行。</p>
+<blockquote>
+<p>nginx日志输出格式是一个请求一行。否则进行单行过滤的时候会有大问题。</p></blockquote>
+</li>
+<li>
+<p>输出配置最好指定为内网ip。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">filebeat</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">inputs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">type</span>: <span style="color:#ae81ff">log</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">/usr/local/openresty/nginx/logs/data_tracking/access.log*</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">include_lines</span>: [<span style="color:#e6db74">&#39;&#34;project&#34;: &#34;test_bank_event&#34;&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">output.logstash</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">hosts</span>: [<span style="color:#e6db74">&#34;192.168.0.34:5055&#34;</span>]
+</span></span></code></pre></div>
+<h2 class="relative group">logstash 
+    <div id="logstash" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#logstash" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>logstash相对于filebeat并没有那么轻量，但相对来说有更多的功能和数据处理功能。所以一般将filebeat和logstash结合使用。用filebeat读取日志文件并输出到logstash中，再进行后续的数据处理。</p>
+
+<h3 class="relative group">1. 安装 
+    <div id="1-安装-2" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-%e5%ae%89%e8%a3%85-2" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>logstash的安装方法和filebeat的安装基本相同，可以在官网下载安装包进行安装，在此不再赘述。</p>
+<p><a href="https://www.elastic.co/cn/downloads/logstash" target="_blank">https://www.elastic.co/cn/downloads/logstash</a></p>
+
+<h3 class="relative group">2. 配置和启动 
+    <div id="2-配置和启动-1" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-%e9%85%8d%e7%bd%ae%e5%92%8c%e5%90%af%e5%8a%a8-1" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>logstash 的默认安装路径也位于<code>/usr/share/</code>目录下。</p>
+<p>其启动文件是安装根目录下的<code>bin/logstash</code>，对于一些简单的配置信息，可以直接以命令行参数的形式指定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>bin/logstash -e <span style="color:#e6db74">&#39;input { stdin {}} output{ stdout{}}&#39;</span>
+</span></span></code></pre></div><p>这行命令指定了最基本的<code>input</code>和<code>output</code>为标准输入和标准输出。启动后直接在命令行输入内容，回车后就可以看到结构化处理后的数据输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>hello world
+</span></span><span style="display:flex;"><span>/usr/share/logstash/vendor/bundle/jruby/2.5.0/gems/awesome_print-1.7.0/lib/awesome_print/formatters/base_formatter.rb:31: warning: constant ::Fixnum is deprecated
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;@timestamp&#34;</span> <span style="color:#f92672">=</span>&gt; 2020-06-08T03:38:04.658Z,
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;host&#34;</span> <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;hadoop&#34;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#34;message&#34;</span> <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;hello world&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;@version&#34;</span> <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>要进行更多的配置，最好在安装根目录下新建一个 .conf格式的配置文件。</p>
+<p>要将logstash和filebeat联合使用，需要让logstash接受一个beats格式的输入：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#ae81ff">input{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">beats{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#ae81ff">port =&gt; &#34;5044&#34;</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># filter{</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># }</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">output {</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">stdout { codec =&gt; rubydebug}</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上述配置指定了一个beats类型的input，并设置端口为5044</p>
+<p>在写好配置文件后可以使用下面的命令对配置进行检查，其中<code>-f</code>指定了要加载的配置文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>bin/logstash -f first-pipeline.conf --config.test_and_exit
+</span></span></code></pre></div><p><code>--config.test_and_exit</code>命令会加载配置文件并检查是否有错误，并在输出检查结果后自动退出。</p>
+<p>如果检查通过，那么就可以启动logstash了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>bin/logstash -f first-pipeline.conf --config.reload.automatic
+</span></span></code></pre></div><p><code>--config.reload.automatic</code>命令开启了自动重载配置的功能，所以在修改完配置文件后可以不用重启服务，logstash会自动加载更新后的配置。</p>
+<p>如果在filebeat中配置的输出地址和logstash中的输入beats地址相同，那么在启动了这两个服务后，logstash就可以收到filebeat读取到的日志内容。其基本格式和上文中从标准输入获取数据并输出的格式类似。</p>
+
+<h3 class="relative group">3. 和filebeat的配合 
+    <div id="3-和filebeat的配合" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-%e5%92%8cfilebeat%e7%9a%84%e9%85%8d%e5%90%88" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>在输入配置了对应的filebeat的端口后，接下来主要是配置<code>filter</code>模块对日志进行解析，这部分也要根据<code>nginx</code>日志的结构进行灵活的配置。<code>filebeat</code>主要用来收集数据传输给<code>logstash</code>，当然<code>filebeat</code>中也可以进行一些简单的数据处理，但还是推荐<code>filebeat</code>只负责收集日志，发送到<code>logstash</code>进行统一处理。</p>
+<p>下面是一份<code>logstash</code>的conf文件用于参考：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>filter{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 首先对filebeat中的数据进行解析，其中&#39;message&#39;对应的值才是我们真正要解析的埋点数据</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 其他还有很多filebeat自动生成的数据。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 这里使用json插件进行解析，解析完后就可以删除原来的变量了，减少不必要的数据传输</span>
+</span></span><span style="display:flex;"><span>	json{
+</span></span><span style="display:flex;"><span>        source <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;message&#34;</span>
+</span></span><span style="display:flex;"><span>        remove_field <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 对埋点数据进行url解码，因为埋点数据可能是通过url传输的，可能会有进行过url编码</span>
+</span></span><span style="display:flex;"><span>    urldecode{
+</span></span><span style="display:flex;"><span>        all_fields <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用ruby进行base64解码，目标是&#39;data&#39;变量，结果赋值给新建的&#39;b64_decoded&#39;变量。</span>
+</span></span><span style="display:flex;"><span>    ruby {
+</span></span><span style="display:flex;"><span>        init <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;require &#39;base64&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>        code <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;event.set(&#39;b64_decoded&#39;, Base64.decode64(event.get(&#39;data&#39;))) if event.include?(&#39;data&#39;)&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#这里解码出刚刚截取出来的msg字段</span>
+</span></span><span style="display:flex;"><span>        remove_field <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;data&#34;</span>,<span style="color:#e6db74">&#34;request&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在解码后再进行一次json解析，把json字符串转换为json结构体</span>
+</span></span><span style="display:flex;"><span>    json {
+</span></span><span style="display:flex;"><span>        source <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;b64_decoded&#34;</span>
+</span></span><span style="display:flex;"><span>        remove_field <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;b64_decoded&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+<h3 class="relative group">4. 和kafka的配合 
+    <div id="4-和kafka的配合" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#4-%e5%92%8ckafka%e7%9a%84%e9%85%8d%e5%90%88" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>由于本链路使用的存储为<code>kudu</code>数据库，而logstash是不支持直接写入<code>kudu</code>的；并且要考虑到并发处理和容错，所以要先将数据写入<code>kafka</code>消息队列，再由<code>kafka</code>写入<code>kudu</code>。</p>
+<p>主要是配置conf文件中的<code>output</code>模块：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span>output{
+</span></span><span style="display:flex;"><span>    kafka {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 输出为json格式</span>
+</span></span><span style="display:flex;"><span>        codec <span style="color:#f92672">=&gt;</span> json
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 指定topic为&#39;test_event&#39;</span>
+</span></span><span style="display:flex;"><span>        topic_id <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;test_event&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>必要的配置就只有<code>topic_id</code>，更多的配置参考logstash官方文档对<code>kafka</code>插件的介绍。</p>
+<p>​</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_tech\\日志采集链路部署指南.md"
+        var oid_likes = "likes_tech\\日志采集链路部署指南.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Kudu 部署指南</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-08-01T00:00:00&#43;00:00"></time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="" title="">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2025
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="https://seyoatda.github.io/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder=""
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title=""
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

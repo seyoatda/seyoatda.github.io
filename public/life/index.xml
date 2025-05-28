@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lives on </title>
+    <link>https://seyoatda.github.io/life/</link>
+    <description>Recent content in Lives on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sun, 11 Jul 2021 22:48:54 +0800</lastBuildDate><atom:link href="https://seyoatda.github.io/life/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>重启之路</title>
+      <link>https://seyoatda.github.io/life/%E9%87%8D%E5%90%AF%E4%B9%8B%E8%B7%AF/</link>
+      <pubDate>Sun, 11 Jul 2021 22:48:54 +0800</pubDate>
+      
+      <guid>https://seyoatda.github.io/life/%E9%87%8D%E5%90%AF%E4%B9%8B%E8%B7%AF/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://seyoatda.github.io/life/untitled/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://seyoatda.github.io/life/untitled/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>

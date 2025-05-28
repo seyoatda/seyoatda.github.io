@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head>
+  <meta charset="utf-8" />
+  
+  <meta http-equiv="content-language" content="zh" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  
+  <title>Kudu 部署指南 &middot; </title>
+  <meta name="title" content="Kudu 部署指南 &middot; " />
+  
+  
+  <meta name="keywords" content="大数据, nosql, " />
+  
+  
+  <link rel="canonical" href="https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" />
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link type="text/css" rel="stylesheet" href="/css/main.bundle.min.5f8f4777872a0d3d0d40b3754a43f54f29ae82af8e7ee8b8cb972495c44f0d770b15cd4194b7a49bc85950ac492768c127b305a57fc92ed77bf7e230fb6530a4.css"
+    integrity="sha512-X49Hd4cqDT0NQLN1SkP1Tymugq&#43;Ofui4y5cklcRPDXcLFc1BlLekm8hZUKxJJ2jBJ7MFpX/JLtd79&#43;Iw&#43;2UwpA==" />
+  
+  
+  <script type="text/javascript" src="/js/appearance.min.516a16745bea5a9bd011138d254cc0fd3973cd55ce6e15f3dec763e7c7c2c7448f8fe7b54cca811cb821b0c7e12cd161caace1dd794ac3d34d40937cbcc9ee12.js"
+    integrity="sha512-UWoWdFvqWpvQERONJUzA/TlzzVXObhXz3sdj58fCx0SPj&#43;e1TMqBHLghsMfhLNFhyqzh3XlKw9NNQJN8vMnuEg=="></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.165327e9b2a9a8807ad5cb6c943a8f9a52756791c128e2dbfb3623bb42429636adb4bbb076b0447b592cad02914321a6aef0db10b907465de34fda41e2830281.js"
+    integrity="sha512-FlMn6bKpqIB61ctslDqPmlJ1Z5HBKOLb&#43;zYju0JCljattLuwdrBEe1ksrQKRQyGmrvDbELkHRl3jT9pB4oMCgQ==" data-copy="" data-copied=""></script>
+  
+  
+  
+  <script src="/lib/zoom/zoom.min.f592a181a15d2a5b042daa7f746c3721acf9063f8b6acd175d989129865a37d400ae0e85b640f9ad42cd98d1f8ad30931718cf8811abdcc5fcb264400d1a2b0c.js" integrity="sha512-9ZKhgaFdKlsELap/dGw3Iaz5Bj&#43;Las0XXZiRKYZaN9QArg6FtkD5rULNmNH4rTCTFxjPiBGr3MX8smRADRorDA=="></script>
+  
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+  <meta property="og:title" content="Kudu 部署指南">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2020-08-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2020-08-01T00:00:00+00:00">
+    <meta property="article:tag" content="大数据">
+    <meta property="article:tag" content="Nosql">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kudu 部署指南">
+
+    
+  
+  
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "articleSection": "Teches",
+    "name": "Kudu 部署指南",
+    "headline": "Kudu 部署指南",
+    
+    
+    "inLanguage": "zh",
+    "url" : "https:\/\/seyoatda.github.io\/tech\/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97\/",
+    "author" : {
+      "@type": "Person",
+      "name": ""
+    },
+    "copyrightYear": "2020",
+    "dateCreated": "2020-08-01T00:00:00\u002b00:00",
+    "datePublished": "2020-08-01T00:00:00\u002b00:00",
+    
+    "dateModified": "2020-08-01T00:00:00\u002b00:00",
+    
+    "keywords": ["大数据","nosql"],
+    
+    "mainEntityOfPage": "true",
+    "wordCount": "349"
+  }]
+  </script>
+
+
+  
+  
+  
+  
+  
+
+<script src="/lib/jquery/jquery.slim.min.b0dca576e87d7eaa5850ae4e61759c065786cdb6489d68fcc82240539eebd5da522bdb4fda085ffd245808c8fe2acb2516408eb774ef26b5f6015fc6737c0ea8.js" integrity="sha512-sNylduh9fqpYUK5OYXWcBleGzbZInWj8yCJAU57r1dpSK9tP2ghf/SRYCMj&#43;KsslFkCOt3TvJrX2AV/Gc3wOqA=="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+  
+  <meta name="theme-color"/>
+  
+  
+</head>
+<body
+  class="flex flex-col h-screen px-6 m-auto text-lg leading-7 max-w-7xl bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32 scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600">
+  <div id="the-top" class="absolute flex self-center">
+    <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
+      href="#main-content"><span
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span></a>
+  </div>
+  
+  
+  <div style="padding-left:0;padding-right:0;padding-top:2px;padding-bottom:3px"
+    class="main-menu flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start gap-x-3">
+    
+    <div class="flex flex-1 items-center justify-between">
+        <nav class="flex space-x-3">
+
+            
+            <a href="/" class="text-base font-medium text-gray-500 hover:text-gray-900"></a>
+            
+
+        </nav>
+        <nav class="hidden md:flex items-center gap-x-5 md:ml-12 h-12">
+
+            
+
+            
+
+
+            
+            <button id="search-button" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+
+            
+            
+            <div
+                class=" flex items-center">
+                <button id="appearance-switcher" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400">
+                    <div class="flex items-center justify-center dark:hidden">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                    </div>
+                    <div class="items-center justify-center hidden dark:flex">
+                        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                    </div>
+                </button>
+            </div>
+            
+
+        </nav>
+        <div class="flex md:hidden items-center gap-x-5 md:ml-12 h-12">
+
+            <span></span>
+
+            
+
+
+            
+            <button id="search-button-mobile" aria-label="Search" class="text-base hover:text-primary-600 dark:hover:text-primary-400"
+                title="">
+                
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+            </button>
+            
+
+            
+            
+            <button id="appearance-switcher-mobile" aria-label="Dark mode switcher" type="button" class="text-base hover:text-primary-600 dark:hover:text-primary-400 ltr:mr-1 rtl:ml-1">
+                <div class="flex items-center justify-center dark:hidden">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"/></svg>
+
+  </span>
+
+
+                </div>
+                <div class="items-center justify-center hidden dark:flex">
+                    
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 159.1c-53.02 0-95.1 42.98-95.1 95.1S202.1 351.1 256 351.1s95.1-42.98 95.1-95.1S309 159.1 256 159.1zM509.3 347L446.1 255.1l63.15-91.01c6.332-9.125 1.104-21.74-9.826-23.72l-109-19.7l-19.7-109c-1.975-10.93-14.59-16.16-23.72-9.824L256 65.89L164.1 2.736c-9.125-6.332-21.74-1.107-23.72 9.824L121.6 121.6L12.56 141.3C1.633 143.2-3.596 155.9 2.736 164.1L65.89 256l-63.15 91.01c-6.332 9.125-1.105 21.74 9.824 23.72l109 19.7l19.7 109c1.975 10.93 14.59 16.16 23.72 9.824L256 446.1l91.01 63.15c9.127 6.334 21.75 1.107 23.72-9.822l19.7-109l109-19.7C510.4 368.8 515.6 356.1 509.3 347zM256 383.1c-70.69 0-127.1-57.31-127.1-127.1c0-70.69 57.31-127.1 127.1-127.1s127.1 57.3 127.1 127.1C383.1 326.7 326.7 383.1 256 383.1z"/></svg>
+
+  </span>
+
+
+                </div>
+            </button>
+            
+
+        </div>
+    </div>
+    <div class="-my-2 md:hidden">
+
+        <label id="menu-button" class="block">
+            
+
+            </div>
+        </label>
+    </div>
+</div>
+
+
+
+
+
+  
+  <div class="relative flex flex-col grow">
+    <main id="main-content" class="grow">
+      
+
+
+<article>
+  
+
+  <header id="single_header" class="mt-5 max-w-prose">
+    
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      Kudu 部署指南
+    </h1>
+    <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex flex-row flex-wrap items-center">
+  
+  
+  <time datetime="2020-08-01T00:00:00&#43;00:00"></time><span class="px-2 text-primary-500">&middot;</span><span></span><span class="px-2 text-primary-500">&middot;</span><span title=""></span>
+  
+
+  
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+    
+    
+
+    
+
+    
+      
+      
+        
+        
+<div class="flex author">
+  
+  <div class="place-self-center">
+    
+    
+    <div class="text-2xl sm:text-lg">
+</div>
+  </div>
+</div>
+
+      
+
+      
+
+      
+      <div class="mb-5"></div>
+      
+
+    
+
+  </header>
+  
+  <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+    
+    
+
+      <div class="min-w-0 min-h-0 max-w-fit">
+        
+        
+
+
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">1. Kudu的原理 
+    <div id="1-kudu的原理" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#1-kudu%e7%9a%84%e5%8e%9f%e7%90%86" aria-label="">#</a>
+    </span>        
+    
+</h1>
+
+<h2 class="relative group">1.1 概述 
+    <div id="11-概述" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#11-%e6%a6%82%e8%bf%b0" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>Kudu是一个类似Hbase的列式存储分布式数据库，它的定位介于hdfs和hbase之间。</p>
+<ul>
+<li><code>hdfs</code>：使用列式存储，适合OLAP，不支持单条纪录级别的更新操作，随机读写性能差，不适合用来作实时查询。</li>
+<li><code>hbase</code>：可以高效地随机读写，适用OLTP，但是不适用于SQL，且大数据量时读性能较差。</li>
+</ul>
+<p>Kudu就是结合了两者的优点，平衡了两者的缺点。从而同时在OLTP和OLAP中都提供较好的性能。这样就无需为了解决以上两者的缺点而搭建两种架构。</p>
+
+<h2 class="relative group">1.2 基本概念 
+    <div id="12-基本概念" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#12-%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="img" src="#ZgotmplZ" />
+
+  
+</figure>
+</p>
+<ul>
+<li>
+<p><code>Table</code>：是一张表，具有全局的主键，一张table可以分为多个段，即<code>tablet</code>。</p>
+</li>
+<li>
+<p><code>Tablet</code>：一个tablet是一张表连续的一个段，类似于关系型数据库的<code>partition</code>分区。</p>
+</li>
+<li>
+<p><code>Tablet server</code>：存储tablet，并且向客户端提供读取数据的服务。</p>
+<p>对于指定的tablet，有一个server作为leader，基余server作为follower副本。只有leader处理写请求，follower负责和leader同步数据，并且提供读服务。</p>
+</li>
+<li>
+<p><code>Master</code>：主要用于管理元数据，监听<code>tserver(tablet server)</code>的状态。当client发出请求时，其先对请求做校验，再分配tserver给client进行请求。</p>
+</li>
+</ul>
+
+<h1 class="relative group">2. Kudu的安装 
+    <div id="2-kudu的安装" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#2-kudu%e7%9a%84%e5%ae%89%e8%a3%85" aria-label="">#</a>
+    </span>        
+    
+</h1>
+
+<h2 class="relative group">2.1 前置条件 
+    <div id="21-前置条件" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#21-%e5%89%8d%e7%bd%ae%e6%9d%a1%e4%bb%b6" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>以下是官方文档中给出的一些条件：</p>
+
+<h3 class="relative group">硬件 
+    <div id="硬件" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%a1%ac%e4%bb%b6" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<ul>
+<li>
+<p>至少一个主机来作为Kudu的<code>Master</code>节点，<code>Master</code>节点数必须是奇数，推荐配置1个或者3个。</p>
+</li>
+<li>
+<p>至少一个主机来作为<code>tablet</code>节点，如果需要备份复制，那么至少需要3个服务器</p>
+<blockquote>
+<p><code>2k</code>个数量的Master节点和<code>2k-1</code>个节点的容错等级是一样的。4个节点和3个节点一样，只能容忍一个错误。2个节点则不能容错。（这也是为什么官方推荐1个或3个节点的原因）</p></blockquote>
+</li>
+</ul>
+<p>所以使用1台服务器也可以进行基本的Kudu的安装与运行</p>
+
+<h3 class="relative group">操作系统 
+    <div id="操作系统" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f" aria-label="">#</a>
+    </span>        
+    
+</h3>
+
+<h4 class="relative group">Linux 
+    <div id="linux" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#linux" aria-label="">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li><code>RHEL / CentOS 6.6+</code> or <code>Ubuntu 16 18</code> or <code>Debian 8</code></li>
+<li>ntp服务</li>
+<li><code>xfs</code>/<code>ext4</code>格式的磁盘</li>
+<li></li>
+</ul>
+
+<h4 class="relative group">Windows 
+    <div id="windows" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#windows" aria-label="">#</a>
+    </span>        
+    
+</h4>
+<ul>
+<li>不支持</li>
+</ul>
+
+<h3 class="relative group">磁盘 
+    <div id="磁盘" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#%e7%a3%81%e7%9b%98" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<ul>
+<li>如果能使用SSD，会显著地改善Kudu的延迟</li>
+<li>至少<code>50GB</code>以上的磁盘空间，（实测想要完整编译，至少需要90GB以上）</li>
+</ul>
+
+<h3 class="relative group">Java 
+    <div id="java" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#java" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<ul>
+<li>JDK8 以上，但是不需要JRE</li>
+</ul>
+
+<h2 class="relative group">2.2 源码编译 
+    <div id="22-源码编译" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#22-%e6%ba%90%e7%a0%81%e7%bc%96%e8%af%91" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>Kudu虽然提供了<code>Docker</code>的运行方式，但是官方建议只用于测试和学习，并不推荐在正式环境使用<code>Docker</code>运行。所以最好从源码编译一遍。</p>
+<blockquote>
+<p>编译需要使用到C++11的编译器（GCC4.8)</p></blockquote>
+<p>笔者使用的是<code>CentOS7.7</code>，以下基于该系统进行说明。</p>
+
+<h3 class="relative group">CentOS 
+    <div id="centos" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#centos" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>CentOS 7.0 以上的版本就需要安装<code>Red Hat Developer Toolset</code>包用于获取<code>C++</code>编译器。</p>
+<ol>
+<li>
+<p>安装依赖</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo yum install autoconf automake cyrus-sasl-devel cyrus-sasl-gssapi <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  cyrus-sasl-plain flex gcc gcc-c++ gdb git java-1.8.0-openjdk-devel <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  krb5-server krb5-workstation libtool make openssl-devel patch <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  pkgconfig redhat-lsb-core rsync unzip vim-common which
+</span></span></code></pre></div></li>
+<li>
+<p>笔者的系统是<code>CentOS 7.7</code>，所以需要安装Toolset。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ DTLS_RPM<span style="color:#f92672">=</span>rhscl-devtoolset-3-epel-6-x86_64-1-2.noarch.rpm
+</span></span><span style="display:flex;"><span>$ DTLS_RPM_URL<span style="color:#f92672">=</span>https://www.softwarecollections.org/repos/rhscl/devtoolset-3/epel-6-x86_64/noarch/<span style="color:#e6db74">${</span>DTLS_RPM<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ wget <span style="color:#e6db74">${</span>DTLS_RPM_URL<span style="color:#e6db74">}</span> -O <span style="color:#e6db74">${</span>DTLS_RPM<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ sudo yum install -y scl-utils <span style="color:#e6db74">${</span>DTLS_RPM<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ sudo yum install -y devtoolset-3-toolchain
+</span></span></code></pre></div><p>官网给出的url已经失效，安装失败。但是经验证，没有安装也能正常编译。猜测是只需要安装了<code>gcc</code>并且版本大于4.8就可以了，可以使用<code>gcc --version</code>命令查看版本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ gcc --version
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>gcc <span style="color:#f92672">(</span>GCC<span style="color:#f92672">)</span> 8.3.1 <span style="color:#ae81ff">20191121</span> <span style="color:#f92672">(</span>Red Hat 8.3.1-5<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Copyright <span style="color:#f92672">(</span>C<span style="color:#f92672">)</span> <span style="color:#ae81ff">2018</span> Free Software Foundation, Inc.
+</span></span><span style="display:flex;"><span>This is free software; see the source <span style="color:#66d9ef">for</span> copying conditions.  There is NO
+</span></span><span style="display:flex;"><span>warranty; not even <span style="color:#66d9ef">for</span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+</span></span></code></pre></div></li>
+<li>
+<p>从github仓库中获取源码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git clone https://github.com/apache/kudu
+</span></span></code></pre></div></li>
+<li>
+<p>使用<code>build-if-necessary.sh</code>脚本可以构建任何缺失的第三方依赖。需要使用到Python，本文中安装的是<code>python 3.6</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ build-support/enable_devtoolset.sh thirdparty/build-if-necessary.sh
+</span></span></code></pre></div><p>然后进行一段漫长的等待过程。</p>
+</li>
+<li>
+<p>第4步完成后才能进进正式的编译过程，选择一个除了kudu根目录以外的输出目录，进行编译：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ mkdir -p build/release
+</span></span><span style="display:flex;"><span>$ cd build/release
+</span></span><span style="display:flex;"><span>$ ../../build-support/enable_devtoolset.sh ../../thirdparty/installed/common/bin/cmake -DCMAKE_BUILD_TYPE<span style="color:#f92672">=</span>release --DNO_TESTS<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ../..
+</span></span><span style="display:flex;"><span>$ make -j4
+</span></span></code></pre></div><p><code>--DNO_TEST=1</code>参数的作用是在编译时跳过测试工作的编译，否则编译结果将十分巨大。</p>
+<blockquote>
+<p>安装时可以使用以下参数来跳过指定的组件：</p>
+<ul>
+<li><code>-DKUDU_CLIENT_INSTALL=OFF</code> 跳过kudu客户端的安装</li>
+<li><code>-DKUDU_TSERVER_INSTALL=OFF</code>跳过tserver的安装</li>
+<li><code>-DKUDU_MASTER_INSTALL=OFF</code>跳过master的安装</li>
+</ul>
+<p>假如某个服务器只作为tserver使用，那么可以跳过master的安装以减少磁盘资源占用并加快安装过程。</p></blockquote>
+<p>编译过程耗时也十分久。喝上一杯茶🍵慢慢等待。</p>
+</li>
+<li>
+<p>完成编译后，构建可执行文件，库文件和头文件。进入上一步编译的输出目录，运行下面的命令进行构建。用<code>DESTDIR=xxx</code>指定自己想要输出的位置，如果不指定则默认输出到<code>/usr/local/</code>目录下面。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo make DESTDIR<span style="color:#f92672">=</span>/home/kudu install
+</span></span></code></pre></div><p>至此最基本的编译安装就完成啦😊！</p>
+</li>
+</ol>
+
+<h2 class="relative group">2.3 配置Kudu 
+    <div id="23-配置kudu" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#23-%e9%85%8d%e7%bd%aekudu" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>我们可以通过在命令行启动时传递参数来对Kudu进行配置，当参数过多时，也可在启动时使用<code>–-flagfile=&lt;file&gt;</code>参数来引用配置文件。更奇妙地是，在配置文件中还可以通过<code>--flagfile=&lt;file&gt;</code>来再次引用另一个配置文件，这样配置参数就相当灵活。</p>
+<p><code>Master</code>和<code>Tablet</code>节点的配置可以放在同一个配置文件中，它们会自动识别哪些是属于自己的配置参数。配置参数的格式为<code>-–flag=xxx</code> ，前缀可以用一个或者二个<code>-</code>都OK。</p>
+
+<h3 class="relative group">2.3.1 配置目录 
+    <div id="231-配置目录" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#231-%e9%85%8d%e7%bd%ae%e7%9b%ae%e5%bd%95" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>每个节点都需要手动配置目录。</p>
+<ul>
+<li>
+<p><code>--fs_wal_dir</code>：用来配置Kudu的写前日志<code>WAL</code>（Write-Ahead Log）的输出目录。</p>
+</li>
+<li>
+<p><code>--fs_metadata_dir</code>：配置Kudu每个tablet的元数据的存放目录</p>
+<p>建议这些目录放在一个高性能的、有高带宽的磁盘上，例如SSD。如果<code>--fs_metadata_dir</code>没有指定，那么元数据会放在<code>WAL</code>的输出目录。</p>
+</li>
+<li>
+<p><code>--fs_data_dirs</code>：指定Kudu用于存放数据块的目录。可以通过<code>,</code>分隔添加多个目录，Kudu会把数据平均地存在这些目录中，如果不指定该参数，也是会把数据块放在<code>WAL</code>的输出目录中。</p>
+</li>
+</ul>
+<blockquote>
+<p><code>--fs_wal_dir</code>和<code>--fs_metadata_dir</code>可以设置为<code>--fs_data_dirs</code>给出的目录列表中的某一个目录，但是不能是任何目录列表中目录的子目录。</p></blockquote>
+<p>每一个目录都只能被一个Kudu进程使用，所以多个Kudu进程要分别设置属于自己的各种目录。否则启动可能会失败。</p>
+<p>以上是一些最基本的设置，更多关于Master节点的配置可在官方网站查阅：<a href="https://kudu.apache.org/docs/configuration_reference.html#kudu-master_supported" target="_blank">kudu-Master配置项</a></p>
+
+<h2 class="relative group">2.4 部署实战 
+    <div id="24-部署实战" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#24-%e9%83%a8%e7%bd%b2%e5%ae%9e%e6%88%98" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>现在有5台服务器资源，经考虑，部署1个Master节点，3个Tablet节点。部署情况如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th>服务器IP</th>
+          <th>内存</th>
+          <th>磁盘</th>
+          <th>部署服务</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>120.40.185.*</td>
+          <td>16GB</td>
+          <td>ESSD 云盘100GB <!-- raw HTML omitted -->ESSD 云盘500GB</td>
+          <td>Kudu Tablet</td>
+      </tr>
+      <tr>
+          <td>116.62.161.*</td>
+          <td>16GB</td>
+          <td>ESSD 云盘100GB <!-- raw HTML omitted -->ESSD 云盘500GB</td>
+          <td>Kudu Tablet</td>
+      </tr>
+      <tr>
+          <td>121.41.10.*</td>
+          <td>16GB</td>
+          <td>ESSD 云盘100GB <!-- raw HTML omitted -->ESSD 云盘500GB</td>
+          <td>Kudu Tablet</td>
+      </tr>
+      <tr>
+          <td>112.124.30.*</td>
+          <td>16GB</td>
+          <td>ESSD 云盘100GB <!-- raw HTML omitted -->ESSD 云盘100GB</td>
+          <td>Kudu Master</td>
+      </tr>
+  </tbody>
+</table>
+
+<h3 class="relative group">2.4.1 基本过程 
+    <div id="241-基本过程" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#241-%e5%9f%ba%e6%9c%ac%e8%bf%87%e7%a8%8b" aria-label="">#</a>
+    </span>        
+    
+</h3>
+<p>先分别在四台机上安装Kudu，由于每台服务器只提供一个Master或Tablet节点，所以在安装时可以跳过不需要的部分，这样可以减少对系统资源的占用。安装过程参考上文。</p>
+<p>在安装完之后，分别编写配置文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># tserver配置</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>--fs_wal_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/tserver/wal
+</span></span><span style="display:flex;"><span>--fs_data_dirs<span style="color:#f92672">=</span>/home/kudu/kudu_data/tserver/data
+</span></span><span style="display:flex;"><span>--fs_metadata_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/tserver/metadata
+</span></span><span style="display:flex;"><span>--log_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/tserver/logs
+</span></span><span style="display:flex;"><span>--tserver_master_addrs<span style="color:#f92672">=</span>112.124.30.113:7051
+</span></span><span style="display:flex;"><span>--webserver_doc_root<span style="color:#f92672">=</span>/home/kudu/kudu/www
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># master 配置</span>
+</span></span><span style="display:flex;"><span>--fs_wal_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/master/wal
+</span></span><span style="display:flex;"><span>--fs_data_dirs<span style="color:#f92672">=</span>/home/kudu/kudu_data/master/data
+</span></span><span style="display:flex;"><span>--fs_metadata_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/master/metadata
+</span></span><span style="display:flex;"><span>--log_dir<span style="color:#f92672">=</span>/home/kudu/kudu_data/master/logs
+</span></span><span style="display:flex;"><span>--webserver_doc_root<span style="color:#f92672">=</span>/home/kudu/kudu/www
+</span></span><span style="display:flex;"><span>--trusted_subnets<span style="color:#f92672">=</span>0.0.0.0/0
+</span></span></code></pre></div><p><code>master</code>和<code>tserver</code>的前四个配置是在<code>2.3</code>小节提到的基本配置参数。</p>
+<p><code>--webserver_doc_root</code>是为了能在8051端口看到Kudu的Master节点的一些详细信息（tserver节点的默认端口是8050）。需要指定静态文件的路径，否则在访问8051会报错：</p>
+<p><strong>Static pages not available. Configure KUDU_HOME or use the &ndash;webserver_doc_root flag to fix page styling.</strong></p>
+<p>由报错信息可知，也可以通过设置<code>KUDU_HOME</code>环境变量来解决，但是笔者在实践时这一方法失效了，所以采取了第2种方法。同时这个WebUI的访问端口也可以通过<code>–-webserver_port</code>参数来修改。</p>
+<p>tserver节点需要额外配置一个<code>--tserver_master_addrs</code>参数，指定一串master节点地址的数组。用于将tserver连接到mastser节点。</p>
+<p><code>–trusted_subnets</code>参数设置在master上，为了让master节点能够接受tserver节点的连接请求，这里设为<code>0.0.0.0/0</code>接受所有的ip。当然也可以只单独添加其他节点的ip。</p>
+<p>启动后进入master节点的8051端口，点击<code>Tablet Servers</code>可以看到节点已经连上</p>
+<p>
+
+
+
+
+
+<figure>
+    <img class="my-0 rounded-md" loading="lazy" alt="image-20200811160001948" src="#ZgotmplZ" />
+
+  
+</figure>
+</p>
+
+<h1 class="relative group">3. 模式设计 
+    <div id="3-模式设计" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#3-%e6%a8%a1%e5%bc%8f%e8%ae%be%e8%ae%a1" aria-label="">#</a>
+    </span>        
+    
+</h1>
+<p>Kudu的表格模型结构和传统关系型数据库的模型类似。但是Kudu表的设计要注意的地方又和这些<code>RDBMS</code>不太一样。在Kudu中建表时要着重关注以下3点：</p>
+<ol>
+<li>列设计</li>
+<li>主键设计</li>
+<li>分区设计</li>
+</ol>
+<p>当然前两点在<code>RDBMS</code>中也经常涉及到。</p>
+
+<h2 class="relative group">3.1 完美的模式 
+    <div id="31-完美的模式" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#31-%e5%ae%8c%e7%be%8e%e7%9a%84%e6%a8%a1%e5%bc%8f" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>Kudu的官方网站中介绍了一个完美的模式<code>(Schema)</code>应该满足哪些条件：</p>
+<ol>
+<li>数据的分布情况能够使每个服务器接收的读写请求量都差不多，这样每台服务器的压力都不会太大，也不会太小。这取决于分区的设计。</li>
+<li>Tablets能够以可预测的速度平缓地增长，并且读取Tablets的耗时不会发生太大的变化。这也很大程度上受分区的影响。</li>
+<li>读取操作只扫描查询所需要的数据。这个条件一方面取决于主键的设计，另一方面也会受通过分区设计进行的分区裁剪的影响。</li>
+</ol>
+
+<h2 class="relative group">3.2 列设计 
+    <div id="32-列设计" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
+        <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
+            style="text-decoration-line: none !important;" href="#32-%e5%88%97%e8%ae%be%e8%ae%a1" aria-label="">#</a>
+    </span>        
+    
+</h2>
+<p>Kudu支持以下列数据类型：</p>
+<ul>
+<li><code>BOOL</code>：布尔类型</li>
+<li><code>INT8</code>：8位有符号整数</li>
+<li><code>INT32</code>：32位有符号整数</li>
+<li><code>INT64</code>：64位有符号整数</li>
+<li><code>DATE</code>：32位的天数，以Unix时间戳表示</li>
+<li><code>UNIXTIME_MICROS</code>：64位的毫秒数，以Unix时间戳表示</li>
+<li><code>FLOAT</code>：32位浮点数</li>
+<li><code>DOUBLE</code>：64位浮点数</li>
+<li><code>DECIMAL</code>：固定精度数字类型</li>
+<li><code>VARCHAR</code>：不定长字符串</li>
+<li><code>STRING</code>：UTF-8编码的不限长字符串，最大存储64KB的数据（未压缩）</li>
+<li><code>BINARY</code>：二进制数据，最大64KB（未压缩）</li>
+</ul>
+<p>Kudu是使用列式存储的，所以在设计表的时候，最好能够为每一个列指定最合适的数据类型，而不是一股脑地全部设为<code>STRING</code>或者<code>BINARY</code>之类的。</p>
+
+          
+          
+          
+        </div>
+        
+        
+
+        
+        
+
+          
+      </div>
+     
+      
+      
+        
+        
+          
+          
+        
+      <script>
+        var oid = "views_tech\\Kudu 部署指南.md"
+        var oid_likes = "likes_tech\\Kudu 部署指南.md"
+      </script>
+      
+      
+      <script type="text/javascript" src="/js/page.min.0860cf4e04fa2d72cc33ddba263083464d48f67de06114529043cb4623319efed4f484fd7f1730df5abea0e2da6f3538855634081d02f2d6e920b956f063e823.js" integrity="sha512-CGDPTgT6LXLMM926JjCDRk1I9n3gYRRSkEPLRiMxnv7U9IT9fxcw31q&#43;oOLabzU4hVY0CB0C8tbpILlW8GPoIw=="></script>
+      
+  
+    </section>
+  <footer class="pt-8 max-w-prose print:hidden">
+
+    
+  
+    
+    
+    
+    <div class="pt-8">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <div class="flex justify-between pt-3">
+        <span>
+          
+            <a class="flex group mr-3" href="/tech/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86%E9%93%BE%E8%B7%AF%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >日志采集链路部署指南</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-06-18T17:42:45&#43;08:00"></time>
+                  
+                </span>
+              </span>
+            </a>
+          
+        </span>
+        <span>
+          
+            <a class="flex text-right group ml-3" href="/tech/java%E4%B8%AD%E7%9A%84%E5%A4%9A%E9%87%8D%E5%88%86%E6%B4%BE%E4%B8%8E%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">
+              <span class="flex flex-col">
+                <span
+                  class="mt-[0.1rem] leading-6 group-hover:underline group-hover:decoration-primary-500"
+                  >Java 中的多重分派与访问者模式</span
+                >
+                <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
+                  
+                    <time datetime="2020-12-20T20:20:30&#43;08:00"></time>
+                  
+                </span>
+              </span>
+              <span
+                class="ml-3 text-neutral-700 group-hover:text-primary-600 ltr:inline rtl:hidden dark:text-neutral dark:group-hover:text-primary-400"
+                >&rarr;</span
+              >
+              <span
+                class="mr-3 text-neutral-700 group-hover:text-primary-600 ltr:hidden rtl:inline dark:text-neutral dark:group-hover:text-primary-400"
+                >&larr;</span
+              >
+            </a>
+          
+        </span>
+      </div>
+    </div>
+  
+
+
+    
+  </footer>
+</article>
+
+      <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
+  <a href="#the-top"
+    class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+    aria-label="" title="">
+    &uarr;
+  </a>
+</div>
+    </main><footer id="site-footer" class="py-10 print:hidden">
+  
+  
+    
+  
+  <div class="flex items-center justify-between">
+
+    
+    
+    <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      &copy;
+      2025
+      
+    </p>
+    
+
+    
+    
+    <p class="text-xs text-neutral-500 dark:text-neutral-400">
+      
+      
+      
+    </p>
+    
+
+  </div>
+  <script>
+    
+    mediumZoom(document.querySelectorAll("img:not(.nozoom)"), {
+      margin: 24,
+      background: 'rgba(0,0,0,0.5)',
+      scrollOffset: 0,
+    })
+    
+  </script>
+  
+  
+  <script type="text/javascript" src="/js/process.min.ee03488f19c93c2efb199e2e3014ea5f3cb2ce7d45154adb3399a158cac27ca52831db249ede5bb602700ef87eb02434139de0858af1818ab0fb4182472204a4.js" integrity="sha512-7gNIjxnJPC77GZ4uMBTqXzyyzn1FFUrbM5mhWMrCfKUoMdsknt5btgJwDvh&#43;sCQ0E53ghYrxgYqw&#43;0GCRyIEpA=="></script>
+  
+  
+</footer>
+<div
+  id="search-wrapper"
+  class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
+  data-url="https://seyoatda.github.io/"
+  style="z-index:500"
+>
+  <div
+    id="search-modal"
+    class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800"
+  >
+    <header class="relative z-10 flex items-center justify-between flex-none px-2">
+      <form class="flex items-center flex-auto min-w-0">
+        <div class="flex items-center justify-center w-8 h-8 text-neutral-400">
+          
+
+  <span class="relative block icon">
+    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="svg-inline--fa fa-search fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"/></svg>
+
+  </span>
+
+
+        </div>
+        <input
+          type="search"
+          id="search-query"
+          class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
+          placeholder=""
+          tabindex="0"
+        />
+      </form>
+      <button
+        id="close-search-button"
+        class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
+        title=""
+      >
+        
+
+  <span class="relative block icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
+
+  </span>
+
+
+      </button>
+    </header>
+    <section class="flex-auto px-2 overflow-auto">
+      <ul id="search-results">
+        
+      </ul>
+    </section>
+  </div>
+</div>
+
+  </div>
+</body>
+
+</html>

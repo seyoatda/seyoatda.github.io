@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>大数据 on </title>
+    <link>https://seyoatda.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+    <description>Recent content in 大数据 on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2025 </copyright>
+    <lastBuildDate>Sat, 01 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://seyoatda.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Kudu 部署指南</title>
+      <link>https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>
