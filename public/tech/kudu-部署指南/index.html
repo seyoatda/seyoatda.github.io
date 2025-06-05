@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh" dir="ltr" class="scroll-smooth" data-default-appearance="light"
-  data-auto-appearance="true"><head>
+<html lang="zh-cn" dir="ltr" class="scroll-smooth" data-default-appearance="light"
+  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8" />
   
-  <meta http-equiv="content-language" content="zh" />
+  <meta http-equiv="content-language" content="zh-cn" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -15,7 +15,7 @@
   <meta name="keywords" content="大数据, nosql, " />
   
   
-  <link rel="canonical" href="https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" />
+  <link rel="canonical" href="http://localhost:1313/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/" />
   
   
   
@@ -44,7 +44,7 @@
   
   
   <script defer type="text/javascript" id="script-bundle" src="/js/main.bundle.min.165327e9b2a9a8807ad5cb6c943a8f9a52756791c128e2dbfb3623bb42429636adb4bbb076b0447b592cad02914321a6aef0db10b907465de34fda41e2830281.js"
-    integrity="sha512-FlMn6bKpqIB61ctslDqPmlJ1Z5HBKOLb&#43;zYju0JCljattLuwdrBEe1ksrQKRQyGmrvDbELkHRl3jT9pB4oMCgQ==" data-copy="" data-copied=""></script>
+    integrity="sha512-FlMn6bKpqIB61ctslDqPmlJ1Z5HBKOLb&#43;zYju0JCljattLuwdrBEe1ksrQKRQyGmrvDbELkHRl3jT9pB4oMCgQ==" data-copy="复制" data-copied="已复制"></script>
   
   
   
@@ -64,9 +64,10 @@
   
   
   
-  <meta property="og:url" content="https://seyoatda.github.io/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
+  <meta property="og:url" content="http://localhost:1313/tech/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97/">
   <meta property="og:title" content="Kudu 部署指南">
-  <meta property="og:locale" content="zh">
+  <meta property="og:description" content="1. Kudu的原理 # 1.1 概述 # Kudu是一个类似Hbase的列式存储分布式数据库，它的定位介于hdfs和hbase之间。">
+  <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="tech">
     <meta property="article:published_time" content="2020-08-01T00:00:00+00:00">
@@ -77,6 +78,7 @@
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Kudu 部署指南">
+  <meta name="twitter:description" content="1. Kudu的原理 # 1.1 概述 # Kudu是一个类似Hbase的列式存储分布式数据库，它的定位介于hdfs和hbase之间。">
 
     
   
@@ -89,9 +91,9 @@
     "name": "Kudu 部署指南",
     "headline": "Kudu 部署指南",
     
-    
-    "inLanguage": "zh",
-    "url" : "https:\/\/seyoatda.github.io\/tech\/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97\/",
+    "abstract": "\u003ch1 class=\u0022relative group\u0022\u003e1. Kudu的原理 \n    \u003cdiv id=\u00221-kudu的原理\u0022 class=\u0022anchor\u0022\u003e\u003c\/div\u003e\n    \n    \u003cspan\n        class=\u0022absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100\u0022\u003e\n        \u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022\n            style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#1-kudu%e7%9a%84%e5%8e%9f%e7%90%86\u0022 aria-label=\u0022锚点\u0022\u003e#\u003c\/a\u003e\n    \u003c\/span\u003e        \n    \n\u003c\/h1\u003e\n\n\u003ch2 class=\u0022relative group\u0022\u003e1.1 概述 \n    \u003cdiv id=\u002211-概述\u0022 class=\u0022anchor\u0022\u003e\u003c\/div\u003e\n    \n    \u003cspan\n        class=\u0022absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100\u0022\u003e\n        \u003ca class=\u0022group-hover:text-primary-300 dark:group-hover:text-neutral-700\u0022\n            style=\u0022text-decoration-line: none !important;\u0022 href=\u0022#11-%e6%a6%82%e8%bf%b0\u0022 aria-label=\u0022锚点\u0022\u003e#\u003c\/a\u003e\n    \u003c\/span\u003e        \n    \n\u003c\/h2\u003e\n\u003cp\u003eKudu是一个类似Hbase的列式存储分布式数据库，它的定位介于hdfs和hbase之间。\u003c\/p\u003e",
+    "inLanguage": "zh-cn",
+    "url" : "http:\/\/localhost:1313\/tech\/kudu-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97\/",
     "author" : {
       "@type": "Person",
       "name": ""
@@ -105,7 +107,7 @@
     "keywords": ["大数据","nosql"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "349"
+    "wordCount": "3869"
   }]
   </script>
 
@@ -142,6 +144,15 @@
   
   
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PEDMYR1V0K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PEDMYR1V0K');
+</script>
+
 
 
   
@@ -157,7 +168,7 @@
   <div id="the-top" class="absolute flex self-center">
     <a class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
       href="#main-content"><span
-        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span></a>
+        class="font-bold text-primary-600 ltr:pr-2 rtl:pl-2 dark:text-primary-400">&darr;</span>跳过正文</a>
   </div>
   
   
@@ -344,7 +355,7 @@
 <div class="flex flex-row flex-wrap items-center">
   
   
-  <time datetime="2020-08-01T00:00:00&#43;00:00"></time><span class="px-2 text-primary-500">&middot;</span><span></span><span class="px-2 text-primary-500">&middot;</span><span title=""></span>
+  <time datetime="2020-08-01T00:00:00&#43;00:00">August 1, 2020</time><span class="px-2 text-primary-500">&middot;</span><span>3869 字</span><span class="px-2 text-primary-500">&middot;</span><span title="预计阅读">8 分钟</span>
   
 
   
@@ -415,7 +426,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#1-kudu%e7%9a%84%e5%8e%9f%e7%90%86" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#1-kudu%e7%9a%84%e5%8e%9f%e7%90%86" aria-label="锚点">#</a>
     </span>        
     
 </h1>
@@ -426,7 +437,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#11-%e6%a6%82%e8%bf%b0" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#11-%e6%a6%82%e8%bf%b0" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -443,7 +454,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#12-%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#12-%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -481,7 +492,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#2-kudu%e7%9a%84%e5%ae%89%e8%a3%85" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#2-kudu%e7%9a%84%e5%ae%89%e8%a3%85" aria-label="锚点">#</a>
     </span>        
     
 </h1>
@@ -492,7 +503,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#21-%e5%89%8d%e7%bd%ae%e6%9d%a1%e4%bb%b6" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#21-%e5%89%8d%e7%bd%ae%e6%9d%a1%e4%bb%b6" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -504,7 +515,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#%e7%a1%ac%e4%bb%b6" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#%e7%a1%ac%e4%bb%b6" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -526,7 +537,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -537,7 +548,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#linux" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#linux" aria-label="锚点">#</a>
     </span>        
     
 </h4>
@@ -554,7 +565,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#windows" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#windows" aria-label="锚点">#</a>
     </span>        
     
 </h4>
@@ -568,7 +579,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#%e7%a3%81%e7%9b%98" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#%e7%a3%81%e7%9b%98" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -583,7 +594,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#java" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#java" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -597,7 +608,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#22-%e6%ba%90%e7%a0%81%e7%bc%96%e8%af%91" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#22-%e6%ba%90%e7%a0%81%e7%bc%96%e8%af%91" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -612,7 +623,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#centos" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#centos" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -679,7 +690,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#23-%e9%85%8d%e7%bd%aekudu" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#23-%e9%85%8d%e7%bd%aekudu" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -692,7 +703,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#231-%e9%85%8d%e7%bd%ae%e7%9b%ae%e5%bd%95" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#231-%e9%85%8d%e7%bd%ae%e7%9b%ae%e5%bd%95" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -720,7 +731,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#24-%e9%83%a8%e7%bd%b2%e5%ae%9e%e6%88%98" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#24-%e9%83%a8%e7%bd%b2%e5%ae%9e%e6%88%98" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -768,7 +779,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#241-%e5%9f%ba%e6%9c%ac%e8%bf%87%e7%a8%8b" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#241-%e5%9f%ba%e6%9c%ac%e8%bf%87%e7%a8%8b" aria-label="锚点">#</a>
     </span>        
     
 </h3>
@@ -816,7 +827,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#3-%e6%a8%a1%e5%bc%8f%e8%ae%be%e8%ae%a1" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#3-%e6%a8%a1%e5%bc%8f%e8%ae%be%e8%ae%a1" aria-label="锚点">#</a>
     </span>        
     
 </h1>
@@ -834,7 +845,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#31-%e5%ae%8c%e7%be%8e%e7%9a%84%e6%a8%a1%e5%bc%8f" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#31-%e5%ae%8c%e7%be%8e%e7%9a%84%e6%a8%a1%e5%bc%8f" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -851,7 +862,7 @@
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 ltr:-left-6 rtl:-right-6 not-prose group-hover:opacity-100">
         <a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700"
-            style="text-decoration-line: none !important;" href="#32-%e5%88%97%e8%ae%be%e8%ae%a1" aria-label="">#</a>
+            style="text-decoration-line: none !important;" href="#32-%e5%88%97%e8%ae%be%e8%ae%a1" aria-label="锚点">#</a>
     </span>        
     
 </h2>
@@ -930,7 +941,7 @@
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2020-06-18T17:42:45&#43;08:00"></time>
+                    <time datetime="2020-06-18T17:42:45&#43;08:00">June 18, 2020</time>
                   
                 </span>
               </span>
@@ -947,7 +958,7 @@
                 >
                 <span class="mt-[0.1rem] text-xs text-neutral-500 dark:text-neutral-400">
                   
-                    <time datetime="2020-12-20T20:20:30&#43;08:00"></time>
+                    <time datetime="2020-12-20T20:20:30&#43;08:00">December 20, 2020</time>
                   
                 </span>
               </span>
@@ -974,7 +985,7 @@
       <div id="top-scroller" class="pointer-events-none absolute top-[110vh] bottom-0 w-12 ltr:right-0 rtl:left-0">
   <a href="#the-top"
     class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 mb-16 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
-    aria-label="" title="">
+    aria-label="返回顶部" title="返回顶部">
     &uarr;
   </a>
 </div>
@@ -999,7 +1010,9 @@
     <p class="text-xs text-neutral-500 dark:text-neutral-400">
       
       
-      
+      由 <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+        href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a> 强力驱动
     </p>
     
 
@@ -1022,7 +1035,7 @@
 <div
   id="search-wrapper"
   class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh]"
-  data-url="https://seyoatda.github.io/"
+  data-url="http://localhost:1313/"
   style="z-index:500"
 >
   <div
@@ -1045,14 +1058,14 @@
           type="search"
           id="search-query"
           class="flex flex-auto h-12 mx-1 bg-transparent appearance-none focus:outline-dotted focus:outline-2 focus:outline-transparent"
-          placeholder=""
+          placeholder="搜索"
           tabindex="0"
         />
       </form>
       <button
         id="close-search-button"
         class="flex items-center justify-center w-8 h-8 text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-        title=""
+        title="关闭 (Esc)"
       >
         
 

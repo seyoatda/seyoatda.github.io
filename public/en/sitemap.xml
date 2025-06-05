@@ -3,78 +3,78 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://seyoatda.github.io/en/authors/</loc>
-    <changefreq>daily</changefreq>
+    <loc>http://localhost:1313/en/authors/</loc>
+    <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh"
-      href="https://seyoatda.github.io/authors/"
+      hreflang="zh-cn"
+      href="http://localhost:1313/authors/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://seyoatda.github.io/en/authors/"
+      href="http://localhost:1313/en/authors/"
     />
   </url>
   <url>
-    <loc>https://seyoatda.github.io/en/</loc>
-    <changefreq>daily</changefreq>
+    <loc>http://localhost:1313/en/</loc>
+    <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh"
-      href="https://seyoatda.github.io/"
+      hreflang="zh-cn"
+      href="http://localhost:1313/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://seyoatda.github.io/en/"
+      href="http://localhost:1313/en/"
     />
   </url>
   <url>
-    <loc>https://seyoatda.github.io/en/categories/</loc>
-    <changefreq>daily</changefreq>
+    <loc>http://localhost:1313/en/categories/</loc>
+    <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh"
-      href="https://seyoatda.github.io/categories/"
+      hreflang="zh-cn"
+      href="http://localhost:1313/categories/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://seyoatda.github.io/en/categories/"
+      href="http://localhost:1313/en/categories/"
     />
   </url>
   <url>
-    <loc>https://seyoatda.github.io/en/series/</loc>
-    <changefreq>daily</changefreq>
+    <loc>http://localhost:1313/en/series/</loc>
+    <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh"
-      href="https://seyoatda.github.io/series/"
+      hreflang="zh-cn"
+      href="http://localhost:1313/series/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://seyoatda.github.io/en/series/"
+      href="http://localhost:1313/en/series/"
     />
   </url>
   <url>
-    <loc>https://seyoatda.github.io/en/tags/</loc>
-    <changefreq>daily</changefreq>
+    <loc>http://localhost:1313/en/tags/</loc>
+    <changefreq>always</changefreq>
     <priority>0.5</priority>
     <xhtml:link
       rel="alternate"
-      hreflang="zh"
-      href="https://seyoatda.github.io/tags/"
+      hreflang="zh-cn"
+      href="http://localhost:1313/tags/"
     />
     <xhtml:link
       rel="alternate"
       hreflang="en"
-      href="https://seyoatda.github.io/en/tags/"
+      href="http://localhost:1313/en/tags/"
     />
   </url>
 </urlset>
