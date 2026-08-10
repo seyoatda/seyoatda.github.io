@@ -1,0 +1,93 @@
+---
+// Giscus 评论组件
+// 基于 GitHub Discussions 的评论系统
+// 仓库需启用 Discussions 并安装 Giscus App: https://github.com/apps/giscus
+---
+
+<section class="comments">
+  <h2 class="comments-title">评论</h2>
+  <div class="giscus"></div>
+</section>
+
+<script is:inline define:vars={{
+  giscusConfig: {
+    repo: 'seyoatda/seyoatda.github.io',
+    repoId: 'MDEwOlJlcG9zaXRvcnkyODMyMDQ4NjU=',
+    category: 'Announcements',
+    categoryId: 'DIC_kwDOEOFdAc4DDELB',
+    mapping: 'pathname',
+    strict: '1',
+    reactionsEnabled: '1',
+    emitMetadata: '0',
+    inputPosition: 'top',
+    lang: 'zh-CN',
+    loading: 'lazy',
+  }
+}}>
+  (function() {
+    const c = giscusConfig;
+
+    // 根据当前主题选择 Giscus 配色
+    function getGiscusTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+        || (!document.documentElement.getAttribute('data-theme')
+            && matchMedia('(prefers-color-scheme: dark)').matches);
+      return isDark ? 'dark_dimmed' : 'light';
+    }
+
+    c.theme = getGiscusTheme();
+
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', c.repo);
+    s.setAttribute('data-repo-id', c.repoId);
+    s.setAttribute('data-category', c.category);
+    s.setAttribute('data-category-id', c.categoryId);
+    s.setAttribute('data-mapping', c.mapping);
+    s.setAttribute('data-strict', c.strict);
+    s.setAttribute('data-reactions-enabled', c.reactionsEnabled);
+    s.setAttribute('data-emit-metadata', c.emitMetadata);
+    s.setAttribute('data-input-position', c.inputPosition);
+    s.setAttribute('data-theme', c.theme);
+    s.setAttribute('data-lang', c.lang);
+    s.setAttribute('data-loading', c.loading);
+    s.setAttribute('crossorigin', 'crossorigin');
+    s.async = true;
+    document.querySelector('.giscus').appendChild(s);
+
+    // 主题切换时动态更新 Giscus 配色
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        setTimeout(() => {
+          const newTheme = getGiscusTheme();
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (iframe) {
+            iframe.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: newTheme } } },
+              'https://giscus.app'
+            );
+          }
+        }, 50);
+      });
+    }
+  })();
+</script>
+
+<style>
+.comments {
+  max-width: var(--content-width);
+  margin: 3rem auto 0;
+  padding: 0 1rem;
+}
+.comments-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.giscus {
+  min-height: 100px;
+}
+</style>
