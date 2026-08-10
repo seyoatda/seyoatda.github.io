@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList.astro';
+import { SITE } from '../../consts';
 
 // 分类中文名
 const categoryName: Record<string, string> = {
@@ -27,7 +28,7 @@ const posts = (await getCollection('posts', ({ data }) => data.category === cate
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title={`${catName} - 古法炼金`}>
+<BaseLayout title={`${catName} - ${SITE.title}`}>
   <section class="section-page">
     <header class="section-header">
       <h1>{catName}</h1>

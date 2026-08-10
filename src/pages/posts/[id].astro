@@ -14,8 +14,11 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 const { title, date, tags, draft, category, updated } = post.data;
+
+// 过滤出 h2/h3 作为目录
+const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 
 const dateStr = date.toLocaleDateString('zh-CN', {
   year: 'numeric',
@@ -41,42 +44,137 @@ const catName = categoryName[category] || category;
 ---
 
 <BaseLayout title={`${title} - ${SITE.title}`}>
-  <article class="prose">
-    <header class="post-header">
-      <div class="post-breadcrumb">
-        <a href="/">首页</a>
-        <span class="breadcrumb-sep">/</span>
-        <a href={`/${category}/`}>{catName}</a>
-      </div>
-      <h1 class="post-title">
-        {draft && <span class="draft-badge">草稿</span>}
-        {title}
-      </h1>
-      <div class="post-meta">
-        <time class="post-date">{dateStr}</time>
-        {updatedStr && <span class="post-updated">（更新于 {updatedStr}）</span>}
-        {tags.length > 0 && (
-          <span class="post-tags-inline">
-            {tags.map((tag) => (
-              <a href={`/tags/${tag}/`} class="post-tag">#{tag}</a>
+  <div class="post-layout">
+    <article class="prose">
+      <header class="post-header">
+        <div class="post-breadcrumb">
+          <a href="/">首页</a>
+          <span class="breadcrumb-sep">/</span>
+          <a href={`/${category}/`}>{catName}</a>
+        </div>
+        <h1 class="post-title">
+          {draft && <span class="draft-badge">草稿</span>}
+          {title}
+        </h1>
+        <div class="post-meta">
+          <time class="post-date">{dateStr}</time>
+          {updatedStr && <span class="post-updated">（更新于 {updatedStr}）</span>}
+          {tags.length > 0 && (
+            <span class="post-tags-inline">
+              {tags.map((tag) => (
+                <a href={`/tags/${tag}/`} class="post-tag">#{tag}</a>
+              ))}
+            </span>
+          )}
+        </div>
+      </header>
+
+      <Content />
+
+      <footer class="post-footer">
+        <hr />
+        <div class="post-footer-nav">
+          <a href={`/${category}/`} class="back-link">← 返回{catName}</a>
+        </div>
+      </footer>
+    </article>
+
+    {tocHeadings.length > 0 && (
+      <aside class="toc" id="toc">
+        <nav class="toc-nav">
+          <p class="toc-title">目录</p>
+          <ul>
+            {tocHeadings.map((h) => (
+              <li class={`toc-item toc-depth-${h.depth}`}>
+                <a href={`#${h.slug}`} class="toc-link" data-target={h.slug}>{h.text}</a>
+              </li>
             ))}
-          </span>
-        )}
-      </div>
-    </header>
-
-    <Content />
-
-    <footer class="post-footer">
-      <hr />
-      <div class="post-footer-nav">
-        <a href={`/${category}/`} class="back-link">← 返回{catName}</a>
-      </div>
-    </footer>
-  </article>
+          </ul>
+        </nav>
+      </aside>
+    )}
+  </div>
 </BaseLayout>
 
 <style>
+.post-layout {
+  display: flex;
+  gap: 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+.prose {
+  flex: 1;
+  min-width: 0;
+  max-width: var(--content-width);
+  margin: 0;
+  padding: 2rem 0;
+}
+.toc {
+  position: sticky;
+  top: 4rem;
+  align-self: flex-start;
+  width: 200px;
+  flex-shrink: 0;
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+  font-size: 0.8rem;
+}
+.toc-nav {
+  border-left: 2px solid var(--color-border);
+  padding-left: 0.8rem;
+}
+.toc-title {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.toc ul {
+  list-style: none;
+}
+.toc-item {
+  margin-bottom: 0.3rem;
+}
+.toc-depth-3 {
+  padding-left: 0.8rem;
+}
+.toc-link {
+  color: var(--color-text-muted);
+  display: block;
+  padding: 0.15rem 0;
+  transition: color 0.2s;
+  line-height: 1.4;
+}
+.toc-link:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+.toc-link.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* 移动端：隐藏浮动目录 */
+@media (max-width: 1024px) {
+  .toc {
+    display: none;
+  }
+  .post-layout {
+    display: block;
+  }
+  .prose {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+}
+
+/* 文章头部 */
 .post-header {
   margin-bottom: 2rem;
 }
@@ -133,3 +231,30 @@ const catName = categoryName[category] || category;
   color: var(--color-text-muted);
 }
 </style>
+
+<script>
+  // 滚动时高亮当前目录项
+  const tocLinks = document.querySelectorAll('.toc-link');
+  if (tocLinks.length > 0) {
+    const headings = Array.from(tocLinks).map(link => {
+      const id = link.getAttribute('data-target');
+      return { id, el: document.getElementById(id), link };
+    }).filter(h => h.el);
+
+    function updateActive() {
+      const scrollY = window.scrollY;
+      let activeIdx = 0;
+      for (let i = 0; i < headings.length; i++) {
+        if (headings[i].el.offsetTop - 100 <= scrollY) {
+          activeIdx = i;
+        }
+      }
+      headings.forEach((h, i) => {
+        h.link.classList.toggle('active', i === activeIdx);
+      });
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
+  }
+</script>

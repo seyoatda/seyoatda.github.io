@@ -1,5 +1,4 @@
-/* 霞鹜文楷 + 基础字体栈 */
-@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
+/* 书本泛黄主题 + 霞鹜文楷字体 */
 
 :root {
   /* 书本泛黄背景 */
@@ -83,6 +82,17 @@ a:hover {
   opacity: 0.75;
 }
 
+/* 标签链接：虚线下划线 */
+a[href^="/tags/"] {
+  text-decoration: underline dashed var(--color-border);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a[href^="/tags/"]:hover {
+  text-decoration-color: var(--color-primary);
+  opacity: 1;
+}
+
 /* 文章正文排版 */
 .prose {
   max-width: var(--content-width);
@@ -160,7 +170,7 @@ a:hover {
 }
 
 .prose pre {
-  background: var(--color-code-bg);
+  /* 背景由 Shiki 主题控制 */
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 1rem;
@@ -197,9 +207,8 @@ a:hover {
   margin: 2rem 0;
 }
 
-/* 隐藏 Shiki 过亮/过暗的背景，让主题生效 */
+/* 代码块样式：保留 Shiki 主题的背景色 */
 .prose .astro-code {
-  background: var(--color-code-bg) !important;
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 1rem;

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../consts';
 
 // 获取所有标签及对应文章数
 const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -15,7 +16,7 @@ for (const post of posts) {
 const tags = [...tagMap.entries()].sort((a, b) => b[1] - a[1]);
 ---
 
-<BaseLayout title="标签 - 古法炼金">
+<BaseLayout title={`标签 - ${SITE.title}`}>
   <section class="tags-page">
     <header class="tags-header">
       <h1>标签</h1>

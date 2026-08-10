@@ -1,14 +1,14 @@
 // 站点配置 — 从 Hugo config.toml 迁移
 export const SITE = {
   // 站点标题
-  title: '古法炼金',
+  title: '三天前的灵魂',
   // 副标题/座右铭
   motto: '生活在经验里，直到大厦崩塌。',
   // 作者
   author: 'seyoatda',
   email: 'seyoatda@foxmail.com',
   // 描述
-  description: '古法炼金 — seyoatda 的个人博客',
+  description: '三天前的灵魂 — seyoatda 的个人博客',
   // 站点 URL
   url: 'https://seyoatda.github.io',
   // 版权信息

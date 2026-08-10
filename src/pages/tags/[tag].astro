@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList.astro';
+import { SITE } from '../../consts';
 
 // 为每个标签生成列表页面
 export async function getStaticPaths() {
@@ -25,7 +26,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft && data.ta
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title={`#${tag} - 古法炼金`}>
+<BaseLayout title={`#${tag} - ${SITE.title}`}>
   <section class="tag-page">
     <header class="tag-header">
       <h1>#{tag}</h1>
