@@ -12,62 +12,34 @@ const { title, motto } = SITE;
 ---
 
 <BaseLayout title={title}>
-  <section class="hero">
-    <h1 class="hero-title">{title}</h1>
-    <p class="hero-motto">{motto}</p>
-  </section>
-
-  <section class="home-posts">
-    <div class="home-posts-header">
-      <h2>最新文章</h2>
+  <section class="home">
+    <div class="home-hero">
+      <h1 class="home-title">{title}</h1>
+      <p class="home-motto">{motto}</p>
     </div>
     <PostList posts={posts} />
-    {posts.length === 0 && <p class="empty">还没有文章，敬请期待。</p>}
   </section>
 </BaseLayout>
 
 <style>
-.hero {
-  text-align: center;
-  padding: 4rem 1rem 3rem;
-  background: linear-gradient(90deg,
-    rgba(247, 149, 51, 0.06) 0%,
-    rgba(243, 112, 85, 0.06) 15%,
-    rgba(239, 78, 123, 0.06) 30%,
-    rgba(161, 102, 171, 0.06) 44%,
-    rgba(80, 115, 184, 0.06) 58%,
-    rgba(16, 152, 173, 0.06) 72%,
-    rgba(7, 179, 155, 0.06) 86%,
-    rgba(109, 186, 130, 0.06) 100%
-  );
-}
-.hero-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.hero-motto {
-  color: var(--color-text-muted);
-  font-size: 1.05rem;
-  font-style: italic;
-}
-.home-posts {
+.home {
   max-width: var(--layout-width);
   margin: 0 auto;
-  padding: 0 1rem 2rem;
+  padding: 2.5rem 1rem 3rem;
 }
-.home-posts-header {
-  margin-bottom: 1rem;
-}
-.home-posts-header h2 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  padding-bottom: 0.5rem;
+.home-hero {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-border);
 }
-.empty {
-  text-align: center;
+.home-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.home-motto {
   color: var(--color-text-muted);
-  padding: 2rem;
+  font-size: 0.95rem;
+  font-style: italic;
 }
 </style>

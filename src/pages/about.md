@@ -23,17 +23,17 @@ date: 2021-03-08T12:36:46+08:00
 
 <style>
 .about-page {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1rem;
 }
 .about-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 .about-avatar {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 1rem;
@@ -43,8 +43,8 @@ date: 2021-03-08T12:36:46+08:00
   font-style: italic;
 }
 .about-content {
-  line-height: 1.8;
-  font-size: 1.05rem;
+  line-height: 1.85;
+  font-size: 1.02rem;
 }
 .about-content p {
   margin-bottom: 1rem;
@@ -54,6 +54,6 @@ date: 2021-03-08T12:36:46+08:00
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 </style>
