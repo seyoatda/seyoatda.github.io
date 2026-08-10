@@ -26,13 +26,16 @@
 }}>
   (function() {
     const c = giscusConfig;
+    const origin = window.location.origin;
 
-    // 根据当前主题选择 Giscus 配色
+    // 根据当前主题选择 Giscus 自定义配色 CSS URL
     function getGiscusTheme() {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
         || (!document.documentElement.getAttribute('data-theme')
             && matchMedia('(prefers-color-scheme: dark)').matches);
-      return isDark ? 'dark_dimmed' : 'light';
+      return isDark
+        ? origin + '/giscus-dark.css'
+        : origin + '/giscus-light.css';
     }
 
     c.theme = getGiscusTheme();

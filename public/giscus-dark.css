@@ -1,0 +1,96 @@
+/*!
+ * 三天前的灵魂 — Giscus 自定义主题（暗色/深褐暖色）
+ * 配色与站点 global.css dark 主题保持一致
+ */
+
+main {
+  /* 语法高亮 */
+  --color-prettylights-syntax-comment: #8a7a5e;
+  --color-prettylights-syntax-constant: #c4a44e;
+  --color-prettylights-syntax-entity: #d4a8b8;
+  --color-prettylights-syntax-storage-modifier-import: #d4c9b0;
+  --color-prettylights-syntax-entity-tag: #a5c46b;
+  --color-prettylights-syntax-keyword: #d4796a;
+  --color-prettylights-syntax-string: #c4a44e;
+  --color-prettylights-syntax-variable: #d4a868;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #d4796a;
+  --color-prettylights-syntax-invalid-illegal-text: #1e1a14;
+  --color-prettylights-syntax-invalid-illegal-bg: #8b3a2e;
+  --color-prettylights-syntax-carriage-return-text: #1e1a14;
+  --color-prettylights-syntax-carriage-return-bg: #b35a4a;
+  --color-prettylights-syntax-string-regexp: #a5c46b;
+  --color-prettylights-syntax-markup-list: #c4a44e;
+  --color-prettylights-syntax-markup-heading: #c4a44e;
+  --color-prettylights-syntax-markup-italic: #d4c9b0;
+  --color-prettylights-syntax-markup-bold: #d4c9b0;
+  --color-prettylights-syntax-markup-deleted-text: #d4a8a0;
+  --color-prettylights-syntax-markup-deleted-bg: #4a2820;
+  --color-prettylights-syntax-markup-inserted-text: #a5c46b;
+  --color-prettylights-syntax-markup-inserted-bg: #2a3a20;
+  --color-prettylights-syntax-markup-changed-text: #d4a868;
+  --color-prettylights-syntax-markup-changed-bg: #4a3820;
+  --color-prettylights-syntax-markup-ignored-text: #d4c9b0;
+  --color-prettylights-syntax-markup-ignored-bg: #2a3848;
+  --color-prettylights-syntax-meta-diff-range: #d4a8b8;
+  --color-prettylights-syntax-brackethighlighter-angle: #8a7a5e;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #5a4e38;
+  --color-prettylights-syntax-constant-other-reference-link: #c4a44e;
+
+  /* 按钮 */
+  --color-btn-text: #d4c9b0;
+  --color-btn-bg: #2a2418;
+  --color-btn-border: #3d3528;
+  --color-btn-hover-bg: #332c1e;
+  --color-btn-hover-border: #c4a44e;
+  --color-btn-active-bg: #332c1e;
+  --color-btn-active-border: #c4a44e;
+  --color-btn-selected-bg: #2a2418;
+  --color-btn-primary-text: #1e1a14;
+  --color-btn-primary-bg: #c4a44e;
+  --color-btn-primary-border: #c4a44e;
+  --color-btn-primary-hover-bg: #d4b45e;
+  --color-btn-primary-hover-border: #d4b45e;
+
+  /* 列表/控件 */
+  --color-action-list-item-default-hover-bg: rgba(196, 164, 78, 0.08);
+  --color-segmented-control-bg: rgba(196, 164, 78, 0.08);
+  --color-segmented-control-button-bg: #1e1a14;
+  --color-segmented-control-button-selected-border: #c4a44e;
+
+  /* 前景/背景 */
+  --color-fg-default: #d4c9b0;
+  --color-fg-muted: #8a7a5e;
+  --color-fg-subtle: #6a5e48;
+  --color-canvas-default: transparent;
+  --color-canvas-overlay: #1e1a14;
+  --color-canvas-inset: #2a2418;
+  --color-canvas-subtle: #2a2418;
+  --color-border-default: #3d3528;
+  --color-border-muted: #332c1e;
+  --color-neutral-muted: rgba(138, 122, 94, 0.2);
+  --color-accent-fg: #c4a44e;
+  --color-accent-emphasis: #c4a44e;
+  --color-accent-muted: rgba(196, 164, 78, 0.3);
+  --color-accent-subtle: rgba(196, 164, 78, 0.08);
+  --color-success-fg: #a5c46b;
+  --color-attention-fg: #c4a44e;
+  --color-attention-muted: rgba(196, 164, 78, 0.4);
+  --color-attention-subtle: rgba(196, 164, 78, 0.08);
+  --color-danger-fg: #d4796a;
+  --color-danger-muted: rgba(212, 121, 106, 0.3);
+  --color-danger-subtle: rgba(212, 121, 106, 0.08);
+
+  --color-scale-gray-7: #332c1e;
+  --color-scale-blue-8: #c4a44e;
+
+  --color-social-reaction-bg-hover: #332c1e;
+  --color-social-reaction-bg-reacted-hover: #c4a44e;
+}
+
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
+}
