@@ -1,0 +1,190 @@
+---
+import { SITE, NAV } from '../consts';
+import '../styles/global.css';
+
+// 暗色主题切换脚本（在页面渲染前执行，避免闪烁）
+const themeScript = `
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+})();
+`;
+
+const { title, motto, author, lang } = SITE;
+const pageTitle = title;
+
+// 排序导航菜单
+const nav = [...NAV].sort((a, b) => a.weight - b.weight);
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="author" content={author} />
+  <meta name="description" content={motto} />
+  <link rel="icon" type="image/png" href="/avatar.png" />
+  <link rel="apple-touch-icon" href="/avatar.png" />
+  <title>{pageTitle}</title>
+  <script is:inline set:html={themeScript} />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="site-brand">{title}</a>
+      <nav class="site-nav">
+        {nav.map(item => (
+          <a href={item.href} class="nav-link">{item.name}</a>
+        ))}
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" aria-label="切换主题" title="切换主题">
+        <span class="theme-icon-light">☀</span>
+        <span class="theme-icon-dark">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© {new Date().getFullYear()} {author}</span>
+      <span class="footer-sep">·</span>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    </div>
+  </footer>
+
+  <script is:inline>
+    const toggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    toggle.addEventListener('click', () => {
+      const current = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  </script>
+</body>
+</html>
+
+<style>
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(8px);
+  opacity: 0.98;
+}
+.header-inner {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.site-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+.site-nav {
+  display: flex;
+  gap: 1.2rem;
+  flex: 1;
+}
+.nav-link {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  padding: 0.25rem 0;
+  position: relative;
+}
+.nav-link:hover {
+  color: var(--color-text);
+  opacity: 1;
+}
+.nav-link[aria-current="page"] {
+  color: var(--color-primary);
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: border-color 0.2s, background 0.2s;
+}
+.theme-toggle:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+/* 默认（亮色）：显示月亮图标表示可切换到暗色 */
+.theme-icon-dark {
+  display: inline;
+}
+.theme-icon-light {
+  display: none;
+}
+html[data-theme="dark"] .theme-icon-dark {
+  display: none;
+}
+html[data-theme="dark"] .theme-icon-light {
+  display: inline;
+}
+
+.site-main {
+  min-height: calc(100vh - 3.5rem - 4rem);
+}
+
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+.footer-inner {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.footer-sep {
+  color: var(--color-border);
+}
+
+/* 移动端导航 */
+@media (max-width: 640px) {
+  .header-inner {
+    gap: 0.8rem;
+  }
+  .site-brand {
+    font-size: 1.1rem;
+  }
+  .site-nav {
+    gap: 0.8rem;
+  }
+  .nav-link {
+    font-size: 0.85rem;
+  }
+}
+</style>

@@ -1,0 +1,90 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'posts'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="post-list">
+  {posts.map((post) => {
+    const { title, date, tags, draft } = post.data;
+    const dateStr = date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    return (
+      <article class="post-card">
+        <a href={`/posts/${post.id.replace(/\.md$/, '')}/`} class="post-card-link">
+          <h3 class="post-card-title">
+            {draft && <span class="draft-badge">草稿</span>}
+            {title}
+          </h3>
+          <time class="post-card-date">{dateStr}</time>
+        </a>
+        {tags.length > 0 && (
+          <div class="post-card-tags">
+            {tags.map((tag) => (
+              <a href={`/tags/${tag}/`} class="post-card-tag">#{tag}</a>
+            ))}
+          </div>
+        )}
+      </article>
+    );
+  })}
+</div>
+
+<style>
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.post-card {
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.post-card:hover {
+  background: var(--color-bg-soft);
+}
+.post-card-link {
+  display: block;
+}
+.post-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.draft-badge {
+  font-size: 0.7rem;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 0.1em 0.5em;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.post-card-date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+.post-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+.post-card-tag {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+.post-card-tag:hover {
+  color: var(--color-primary);
+}
+</style>

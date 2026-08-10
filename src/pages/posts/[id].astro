@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../consts';
+
+// 预生成所有文章页面的路径
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    // 去掉文件扩展名，生成简洁 URL
+    params: { id: post.id.replace(/\.md$/, '') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, date, tags, draft, category, updated } = post.data;
+
+const dateStr = date.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const updatedStr = updated
+  ? updated.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+
+// 分类中文名
+const categoryName: Record<string, string> = {
+  tech: '技术',
+  poetry: '诗',
+  life: '遐思',
+};
+const catName = categoryName[category] || category;
+---
+
+<BaseLayout title={`${title} - ${SITE.title}`}>
+  <article class="prose">
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">首页</a>
+        <span class="breadcrumb-sep">/</span>
+        <a href={`/${category}/`}>{catName}</a>
+      </div>
+      <h1 class="post-title">
+        {draft && <span class="draft-badge">草稿</span>}
+        {title}
+      </h1>
+      <div class="post-meta">
+        <time class="post-date">{dateStr}</time>
+        {updatedStr && <span class="post-updated">（更新于 {updatedStr}）</span>}
+        {tags.length > 0 && (
+          <span class="post-tags-inline">
+            {tags.map((tag) => (
+              <a href={`/tags/${tag}/`} class="post-tag">#{tag}</a>
+            ))}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <Content />
+
+    <footer class="post-footer">
+      <hr />
+      <div class="post-footer-nav">
+        <a href={`/${category}/`} class="back-link">← 返回{catName}</a>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+.post-header {
+  margin-bottom: 2rem;
+}
+.post-breadcrumb {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+.breadcrumb-sep {
+  margin: 0 0.3rem;
+}
+.post-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.draft-badge {
+  font-size: 0.75rem;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  padding: 0.15em 0.6em;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.post-tags-inline {
+  display: flex;
+  gap: 0.5rem;
+}
+.post-tag {
+  color: var(--color-text-muted);
+}
+.post-tag:hover {
+  color: var(--color-primary);
+}
+.post-footer {
+  margin-top: 3rem;
+}
+.post-footer-nav {
+  margin-top: 1.5rem;
+}
+.back-link {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+</style>

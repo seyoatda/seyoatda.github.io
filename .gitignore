@@ -1,0 +1,25 @@
+# 构建输出
+dist/
+.output/
+
+# 依赖
+node_modules/
+
+# Astro 缓存
+.astro/
+
+# 环境变量
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+npm-debug.log*

@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+
+// 为每个标签生成列表页面
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      tags.add(tag);
+    }
+  }
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+
+// 获取包含该标签的所有文章，按日期降序
+const posts = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes(tag)))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={`#${tag} - 古法炼金`}>
+  <section class="tag-page">
+    <header class="tag-header">
+      <h1>#{tag}</h1>
+      <span class="post-count">共 {posts.length} 篇</span>
+    </header>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>
+
+<style>
+.tag-page {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.tag-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.tag-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.post-count {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+</style>

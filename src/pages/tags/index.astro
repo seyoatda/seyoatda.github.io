@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// 获取所有标签及对应文章数
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const tagMap = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+  }
+}
+
+// 按文章数降序排列
+const tags = [...tagMap.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="标签 - 古法炼金">
+  <section class="tags-page">
+    <header class="tags-header">
+      <h1>标签</h1>
+      <span class="tag-count">共 {tags.length} 个标签</span>
+    </header>
+    {tags.length > 0 ? (
+      <div class="tag-cloud">
+        {tags.map(([tag, count]) => (
+          <a href={`/tags/${tag}/`} class="tag-item">
+            <span class="tag-name">#{tag}</span>
+            <span class="tag-count-num">{count}</span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="empty">还没有标签。</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+.tags-page {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.tags-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.tags-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.tag-count {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tag-item:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  opacity: 1;
+}
+.tag-name {
+  color: var(--color-text);
+}
+.tag-count-num {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem;
+}
+</style>

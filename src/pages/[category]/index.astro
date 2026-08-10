@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+
+// 分类中文名
+const categoryName: Record<string, string> = {
+  tech: '技术',
+  poetry: '诗',
+  life: '遐思',
+};
+
+// 预生成分区列表页面
+export async function getStaticPaths() {
+  const categories = ['tech', 'poetry', 'life'];
+  return categories.map((category) => ({
+    params: { category },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const catName = categoryName[category] || category;
+
+// 获取该分类下所有已发布的文章，按日期降序
+const posts = (await getCollection('posts', ({ data }) => data.category === category && !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title={`${catName} - 古法炼金`}>
+  <section class="section-page">
+    <header class="section-header">
+      <h1>{catName}</h1>
+      <span class="post-count">共 {posts.length} 篇</span>
+    </header>
+    <PostList posts={posts} />
+    {posts.length === 0 && <p class="empty">还没有文章，敬请期待。</p>}
+  </section>
+</BaseLayout>
+
+<style>
+.section-page {
+  max-width: var(--layout-width);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.section-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.post-count {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem;
+}
+</style>

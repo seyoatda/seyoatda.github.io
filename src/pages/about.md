@@ -1,0 +1,59 @@
+---
+title: "关于"
+date: 2021-03-08T12:36:46+08:00
+---
+
+<div class="about-page">
+  <div class="about-header">
+    <img src="/avatar.png" alt="头像" class="about-avatar" />
+    <h1>seyoatda</h1>
+    <p class="about-motto">生活在经验里，直到大厦崩塌。</p>
+  </div>
+
+  <div class="about-content">
+    <p>你好，我是 seyoatda，一个在炼金路上跌跌撞撞的程序员。</p>
+    <p>这个博客叫「古法炼金」，记录我在技术和生活中的所思所想。内容涵盖技术、诗歌和生活随笔。</p>
+    <p>如果你想要交流，可以通过邮箱联系我：<a href="mailto:seyoatda@foxmail.com">seyoatda@foxmail.com</a></p>
+  </div>
+
+  <div class="about-footer">
+    <p>本站文章除非另有声明，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。</p>
+  </div>
+</div>
+
+<style>
+.about-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.about-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.about-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+.about-motto {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+.about-content {
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+.about-content p {
+  margin-bottom: 1rem;
+}
+.about-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+</style>
