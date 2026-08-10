@@ -98,39 +98,34 @@ const catName = categoryName[category] || category;
 
 <style>
 .post-layout {
-  display: flex;
-  gap: 2rem;
-  max-width: 1080px;
+  position: relative;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 0 1rem;
-  position: relative;
 }
 .prose {
-  flex: 1;
-  min-width: 0;
-  max-width: var(--content-width);
   margin: 0;
   padding: 2rem 0;
 }
 .toc {
-  position: sticky;
+  position: fixed;
   top: 4rem;
-  align-self: flex-start;
+  /* 正文居中后，右侧空间 = 视口右半 - 正文右半 - 间隔 */
+  left: calc(50% + var(--content-width) / 2 + 2.5rem);
   width: 200px;
-  flex-shrink: 0;
   max-height: calc(100vh - 5rem);
   overflow-y: auto;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 .toc-nav {
   border-left: 2px solid var(--color-border);
-  padding-left: 0.8rem;
+  padding-left: 1rem;
 }
 .toc-title {
   font-weight: 600;
   color: var(--color-text-muted);
-  margin-bottom: 0.5rem;
-  font-size: 0.75rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -138,17 +133,17 @@ const catName = categoryName[category] || category;
   list-style: none;
 }
 .toc-item {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
 }
 .toc-depth-3 {
-  padding-left: 0.8rem;
+  padding-left: 1rem;
 }
 .toc-link {
   color: var(--color-text-muted);
   display: block;
-  padding: 0.15rem 0;
+  padding: 0.2rem 0;
   transition: color 0.2s;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .toc-link:hover {
   color: var(--color-primary);
@@ -159,18 +154,10 @@ const catName = categoryName[category] || category;
   font-weight: 500;
 }
 
-/* 移动端：隐藏浮动目录 */
-@media (max-width: 1024px) {
+/* 窄屏：隐藏浮动目录 */
+@media (max-width: 1280px) {
   .toc {
     display: none;
-  }
-  .post-layout {
-    display: block;
-  }
-  .prose {
-    max-width: var(--content-width);
-    margin: 0 auto;
-    padding: 2rem 1rem;
   }
 }
 
