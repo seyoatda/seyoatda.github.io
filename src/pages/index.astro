@@ -4,9 +4,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { SITE } from '../consts';
 
-// 获取所有已发布的文章，按日期降序排列
+// 获取所有已发布的文章，置顶在前（按 pinnedOrder 升序），其余按日期降序
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort((a, b) => {
+    const ap = a.data.pinned ? 0 : 1;
+    const bp = b.data.pinned ? 0 : 1;
+    if (ap !== bp) return ap - bp;
+    if (a.data.pinned && b.data.pinned) return a.data.pinnedOrder - b.data.pinnedOrder;
+    return b.data.date.getTime() - a.data.date.getTime();
+  });
 
 const { title, motto } = SITE;
 ---

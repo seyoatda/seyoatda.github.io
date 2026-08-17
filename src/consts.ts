@@ -22,9 +22,7 @@ export const SITE = {
 
 // 导航菜单
 export const NAV = [
-  { name: '技术', href: '/tech/', weight: 1 },
-  { name: '诗', href: '/poetry/', weight: 2 },
-  { name: '遐思', href: '/life/', weight: 3 },
-  { name: '标签', href: '/tags/', weight: 4 },
-  { name: '关于', href: '/about/', weight: 5 },
+  { name: '首页', href: '/', weight: 1 },
+  { name: '标签', href: '/tags/', weight: 2 },
+  { name: '关于', href: '/about/', weight: 3 },
 ] as const;

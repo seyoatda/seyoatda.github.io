@@ -3,7 +3,7 @@ title: "Python 中的「self」是什么？"
 date: 2021-03-08T12:37:42+08:00
 category: tech
 tags: ["python"]
-draft: false
+draft: true
 ---
 # Python 中的"self"是什么
 

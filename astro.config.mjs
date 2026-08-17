@@ -9,6 +9,11 @@ export default defineConfig({
   base: '/',
   // 构建输出目录
   output: 'static',
+  // 开发服务器配置：绑定所有网络接口
+  server: {
+    host: '0.0.0.0',
+    port: 4321,
+  },
   build: {
     // 内联小样式以减少请求
     inlineStylesheets: 'auto',

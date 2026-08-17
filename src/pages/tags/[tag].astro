@@ -21,9 +21,15 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.props;
 
-// 获取包含该标签的所有文章，按日期降序
+// 获取包含该标签的所有文章，置顶在前（按 pinnedOrder 升序），其余按日期降序
 const posts = (await getCollection('posts', ({ data }) => !data.draft && data.tags.includes(tag)))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort((a, b) => {
+    const ap = a.data.pinned ? 0 : 1;
+    const bp = b.data.pinned ? 0 : 1;
+    if (ap !== bp) return ap - bp;
+    if (a.data.pinned && b.data.pinned) return a.data.pinnedOrder - b.data.pinnedOrder;
+    return b.data.date.getTime() - a.data.date.getTime();
+  });
 ---
 
 <BaseLayout title={`#${tag} - ${SITE.title}`}>

@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
-const { title, date, tags, draft, category, updated } = post.data;
+const { title, date, tags, draft, updated } = post.data;
 
 // 过滤出 h2/h3 作为目录
 const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
@@ -34,14 +34,6 @@ const updatedStr = updated
       day: 'numeric',
     })
   : null;
-
-// 分类中文名
-const categoryName: Record<string, string> = {
-  tech: '技术',
-  poetry: '诗',
-  life: '遐思',
-};
-const catName = categoryName[category] || category;
 ---
 
 <BaseLayout title={`${title} - ${SITE.title}`}>
@@ -50,8 +42,6 @@ const catName = categoryName[category] || category;
       <header class="post-header">
         <div class="post-breadcrumb">
           <a href="/">首页</a>
-          <span class="breadcrumb-sep">/</span>
-          <a href={`/${category}/`}>{catName}</a>
         </div>
         <h1 class="post-title">
           {draft && <span class="draft-badge">草稿</span>}
@@ -75,7 +65,7 @@ const catName = categoryName[category] || category;
       <footer class="post-footer">
         <hr />
         <div class="post-footer-nav">
-          <a href={`/${category}/`} class="back-link">← 返回{catName}</a>
+          <a href="/" class="back-link">← 返回首页</a>
         </div>
       </footer>
     </article>
@@ -171,9 +161,6 @@ const catName = categoryName[category] || category;
   font-size: 0.82rem;
   color: var(--color-text-muted);
   margin-bottom: 0.5rem;
-}
-.breadcrumb-sep {
-  margin: 0 0.3rem;
 }
 .post-title {
   font-size: 1.7rem;

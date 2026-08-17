@@ -12,14 +12,16 @@ const posts = defineCollection({
     draft: z.boolean().optional().default(false),
     // 标签
     tags: z.array(z.string()).optional().default([]),
-    // 分类（对应 Hugo 的 section：tech / poetry / life）
-    category: z.enum(['tech', 'poetry', 'life']),
     // 文章摘要
     excerpt: z.string().optional(),
     // 封面图
     heroImage: z.string().optional(),
     // 是否更新时间
     updated: z.coerce.date().optional(),
+    // 是否置顶
+    pinned: z.boolean().optional().default(false),
+    // 置顶排序：数值越小越靠前
+    pinnedOrder: z.number().optional().default(0),
   }),
 });
 
