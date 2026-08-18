@@ -30,6 +30,7 @@ const nav = [...NAV].sort((a, b) => a.weight - b.weight);
   <link rel="icon" type="image/png" href="/avatar.png" />
   <link rel="apple-touch-icon" href="/avatar.png" />
   <title>{pageTitle}</title>
+  <link rel="alternate" type="application/rss+xml" title={`${SITE.title} RSS Feed`} href="/rss.xml" />
   <script is:inline set:html={themeScript} />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" />
