@@ -15,7 +15,24 @@ import { SITE } from '../consts';
       <p>你好，我是 Hillman Gong</p>
       <p>这个博客叫「{SITE.title}」。</p>
       <p>这里是我的人性的集合</p>
-      <p>如果你想要交流，可以通过邮箱联系我：<a href="mailto:seyoatda@foxmail.com">seyoatda@foxmail.com</a></p>
+    </div>
+
+    <div class="about-links">
+      <h2>订阅与联系</h2>
+      <div class="link-list">
+        <a href="/rss.xml" class="link-item">
+          <span class="link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 17.82c0 1.21-.98 2.18-2.18 2.18S1.82 19.03 1.82 17.82c0-1.21.97-2.18 2.18-2.18s2.18.97 2.18 2.18zM1.82 10.18v3.14c4.72 0 8.56 3.84 8.56 8.56h3.14c0-6.46-5.24-11.7-11.7-11.7zm0-5.36v3.14c7.84 0 14.22 6.38 14.22 14.22h3.14c0-9.58-7.78-17.36-17.36-17.36z"/></svg>
+          </span>
+          <span class="link-text">RSS 订阅</span>
+        </a>
+        <a href="mailto:seyoatda@foxmail.com" class="link-item">
+          <span class="link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          </span>
+          <span class="link-text">seyoatda@foxmail.com</span>
+        </a>
+      </div>
     </div>
 
     <div class="about-footer">
@@ -52,6 +69,52 @@ import { SITE } from '../consts';
 .about-content p {
   margin-bottom: 1rem;
 }
+
+/* 订阅与联系 */
+.about-links {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+.about-links h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: border-color 0.2s, background 0.2s;
+  width: fit-content;
+}
+.link-item:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  opacity: 1;
+}
+.link-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-text-muted);
+}
+.link-item:hover .link-icon {
+  color: var(--color-primary);
+}
+.link-text {
+  color: var(--color-text);
+}
+
 .about-footer {
   margin-top: 3rem;
   padding-top: 1.5rem;

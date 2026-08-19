@@ -45,6 +45,9 @@ const nav = [...NAV].sort((a, b) => a.weight - b.weight);
           <a href={item.href} class="nav-link">{item.name}</a>
         ))}
       </nav>
+      <a href="/rss.xml" class="header-icon" aria-label="RSS 订阅" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 17.82c0 1.21-.98 2.18-2.18 2.18S1.82 19.03 1.82 17.82c0-1.21.97-2.18 2.18-2.18s2.18.97 2.18 2.18zM1.82 10.18v3.14c4.72 0 8.56 3.84 8.56 8.56h3.14c0-6.46-5.24-11.7-11.7-11.7zm0-5.36v3.14c7.84 0 14.22 6.38 14.22 14.22h3.14c0-9.58-7.78-17.36-17.36-17.36z"/></svg>
+      </a>
       <button class="theme-toggle" id="theme-toggle" aria-label="切换主题" title="切换主题">
         <span class="theme-icon-light">☀</span>
         <span class="theme-icon-dark">☾</span>
@@ -119,6 +122,25 @@ const nav = [...NAV].sort((a, b) => a.weight - b.weight);
 }
 .nav-link[aria-current="page"] {
   color: var(--color-primary);
+}
+/* RSS 图标按钮 */
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--color-text-muted);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.header-icon:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  opacity: 1;
 }
 .theme-toggle {
   background: none;
@@ -196,6 +218,11 @@ html[data-theme="dark"] .theme-icon-light {
     width: 1.6rem;
     height: 1.6rem;
     font-size: 0.75rem;
+  }
+  .header-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
   }
 }
 </style>
