@@ -4,8 +4,8 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   // 站点地址，用于生成 sitemap 和 RSS
-  site: 'https://seyoatda.github.io',
-  // GitHub Pages 部署到 https://seyoatda.github.io/，无需子路径
+  site: 'https://soul3daysago.blog',
+  // 自定义域名 soul3daysago.blog，GitHub Pages 部署在根路径
   base: '/',
   // 构建输出目录
   output: 'static',
