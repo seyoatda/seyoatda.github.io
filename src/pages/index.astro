@@ -4,8 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { SITE } from '../consts';
 
-// 获取所有已发布的文章，置顶在前（按 pinnedOrder 升序），其余按日期降序
-const posts = (await getCollection('posts', ({ data }) => !data.draft))
+// 首页不显示诗眠标签文章，置顶在前（按 pinnedOrder 升序），其余按日期降序
+const posts = (await getCollection('posts', ({ data }) => !data.draft && !data.tags.includes('诗眠')))
   .sort((a, b) => {
     const ap = a.data.pinned ? 0 : 1;
     const bp = b.data.pinned ? 0 : 1;

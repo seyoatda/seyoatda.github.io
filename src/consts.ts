@@ -10,7 +10,7 @@ export const SITE = {
   // 描述
   description: '三天前的灵魂 — seyoatda 的个人博客',
   // 站点 URL
-  url: 'https://seyoatda.github.io',
+  url: 'https://soul3daysago.blog',
   // 版权信息
   copyright: 'CC BY-NC-SA 4.0',
   copyrightUrl: 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh',
@@ -23,6 +23,7 @@ export const SITE = {
 // 导航菜单
 export const NAV = [
   { name: '首页', href: '/', weight: 1 },
-  { name: '标签', href: '/tags/', weight: 2 },
-  { name: '关于', href: '/about/', weight: 3 },
+  { name: '诗眠', href: '/tags/诗眠/', weight: 2 },
+  { name: '标签', href: '/tags/', weight: 3 },
+  { name: '关于', href: '/about/', weight: 4 },
 ] as const;
